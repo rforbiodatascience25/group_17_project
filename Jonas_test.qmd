@@ -16,7 +16,6 @@ When you click the **Render** button a document will be generated that includes 
 data <- read.csv("data/bac_dist.csv",
                 header = FALSE, sep = "\t")
 
-
 head(data)
 ```
 
@@ -28,4 +27,3 @@ You can add options to executable code like this
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
-
