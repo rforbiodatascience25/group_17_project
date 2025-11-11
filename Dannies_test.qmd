@@ -1,0 +1,19 @@
+---
+title: "Dannie_spam"
+format: html
+editor: visual
+---
+
+## This is a test
+
+This is a test to see if I can import the data.
+
+```{r}
+library(readxl)
+
+```
+
+```{r}
+alpha_diversity_rhizo_w5_bacteria <- read_excel("data/alpha_diversity_rhizo_w5_bacteria.xls")
+View(alpha_diversity_rhizo_w5_bacteria)
+```
