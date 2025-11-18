@@ -7,4 +7,5 @@ s235402 - Dannie-JO
 s235404 - Casper-Tietgen
 
 Final project for 22100
-We have to discuss if we are going to work in main branch or side branch
+
+We will try to look at equality in medicine. We want to see how much survival rate is dependent on sex,race,education or income level.
