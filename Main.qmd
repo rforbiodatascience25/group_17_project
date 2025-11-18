@@ -11,6 +11,14 @@ library("readr")
 ```
 
 ```{r}
-data<-read_csv(here("data/bac_dist.csv"))
+data<-read_tsv(here("data/support.tsv"))
+data
+```
+
+```{r}
+data |> group_by(income) |> summarize(n = n())
+```
+
+```{r}
 data
 ```
