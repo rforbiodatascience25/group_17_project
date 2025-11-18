@@ -4,25 +4,27 @@ format: html
 ---
 
 ```{r}
-read.csv("data/otu_table_16S_rhi_W5.csv",header=T,row.names=1,sep = ";")
-```
-
-```{r}
 library(readr)
+library(tidyverse)
 library(here)
 ```
 
 ```{r}
-# Reading the contents of TSV file using read_tsv() method
-df<-readr::read_tsv(here("data/support.tsv"))
-summary(df)
+df<-read_tsv(here("data/support.tsv"))
 ```
 
 ```{r}
-load(here("data/bacteremia.sav"))
+df_race <- df |> select(race,age,death,dzgroup,dzclass)
 ```
 
 ```{r}
-plasma <- read_sav(here("data/plasma.sav"))
-View(plasma)
+
+df_grouped_races <- df_race |> group_by(race)
+df_grouped_races |> count()
+```
+
+We remove Asian because there are too few to have reasonable conclusions and also other and NA since that is poorly defined. So from now on all analysis will be in the scope of comparing the 3 races.
+
+```{r}
+df_grouped_races -> df_grouped_races |> filter(race %in% c("black","white","hispanic"))
 ```
