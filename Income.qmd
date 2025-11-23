@@ -1,0 +1,52 @@
+---
+title: "Price effect"
+format: html
+editor: visual
+---
+
+# How does income impact death rate?
+
+## Load libraries and data
+
+### Load libraries
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+```
+
+### Load data
+
+```{r}
+#| message: false
+meta_data <- read_csv("data/med_data_tidy.csv")
+```
+
+## Preparing the metadata for analysis
+
+```{r}
+clean_data <- meta_data |>
+  select(age, death, sex, diag_group, diag_class, income) |>
+  mutate(income = gsub("\\$", "", income)) |>
+  na.omit()
+
+clean_data
+```
+
+### Cleaning the income column and adding new column
+
+```{r}
+clean_data <- clean_data |>
+  mutate(income_class = case_when(income == "under 11k" ~ "Very poor",
+    income == "11-25k" ~ "Poor",
+    income == "25-50k" ~ "Middle class",
+    income == ">50k" ~ "Wealthy"))
+
+clean_data |>
+  select(income, income_class) #Just to check if it is correct
+```
+
+## 
+
+### 
