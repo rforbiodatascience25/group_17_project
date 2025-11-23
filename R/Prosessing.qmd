@@ -3,3 +3,64 @@ title: "Prosessing"
 format: html
 ---
 
+### Importing Packages
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(readr)
+```
+
+### Medicine Equality in Education
+
+```{r}
+med_edu <- read_csv(here("data/med_data_tidy.csv"))
+med_edu
+```
+
+Getting an overview of the amount of years of education shows that 8-15 years is the most common and will heavily sceew the coming analysis.
+
+```{r}
+med_edu |> ggplot(mapping = aes(x = edu)) + 
+  geom_bar() + 
+  labs(title = "Education frequency",        
+    center =TRUE) +
+  xlab("Years of education") + ylab("People")
+
+```
+
+If we group the education by years of 3, we then get the following table:
+
+```{r}
+med_edu_grouped <- med_edu |> 
+  mutate(edu = case_when(0 <= edu & edu < 3 ~ "(0-3]",
+                         3 <= edu & edu < 6 ~ "(3-6]",
+                         6 <= edu & edu < 9 ~ "(6-9]",
+                         9 <= edu & edu < 12 ~ "(9-12]",
+                         12 <= edu & edu < 15 ~ "(12-15]",
+                         15 <= edu & edu < 18 ~ "(15-18]",
+                         18 <= edu & edu < 21 ~ "(18-21]",
+                         21 <= edu & edu < 24 ~ "(21-24]",
+                         24 <= edu & edu < 27 ~ "(24-27]",
+                         27 <= edu & edu < 30 ~ "(27-30]"), 
+  edu = factor(edu, levels=c("(0-3]", "(3-6]","(6-9]","(9-12]","(12-15]","(15-18]","(18-21]","(21-24]","(24-27]","(27-30]")))
+
+med_edu_grouped |> group_by(edu) |> summarize(n = n())
+```
+
+```{r}
+med_edu_grouped |>
+  filter(!is.na(edu)) |>
+  ggplot(aes(x = edu, y = death)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "line", group = 1)
+
+```
+
+```{r}
+
+
+edu_death_model <- lm(death ~ edu, data = med_edu)
+edu_death_model |> summary()
+```
