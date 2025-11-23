@@ -1,0 +1,50 @@
+---
+title: "Rasmus_race"
+format: html
+---
+
+## Coralation between race and survival
+
+```{r}
+#|message: false
+library(here)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+#| message: false
+df_full <- read_csv(here("data/med_data_tidy.csv"))
+
+#Slice the dataframe to only include relevant columns. We keep the full dataset for backround
+df <- df_full |> select(race,age,diag_group,diag_class,death) 
+
+#filter out all rows where race was not specified, and count the abundance of each race in the study
+df <- df |> filter(!is.na(race)) |> group_by(race)
+df |> count() |> print() |> ungroup()
+```
+
+```{r}
+race_plot1 <- ggplot(data=df)+
+  geom_bar(aes(x=race)) +
+  labs(title="Number of patients in the study, statified by race")
+  
+race_plot1
+```
+
+Since asian and other make up such small parts of the study, we will limit the analysis to black, hispanic and white. We will evaluate later if the hispanic sample size is also too small.
+
+```{r}
+df_race_stat <- data.frame(race=c("white","black","hispanic"))
+  
+#df |> filter(race %in% c("white", "black", "hispanic"))
+#df_race |> group_by(race) |>
+#  mutate(death_rate_any = mean(death))
+df_race_stat |> mutate(
+  n=count(x=df_race)
+)
+```
+
+## Extracting features
+
+Now we will add columns to the grouped data.frame by calculating
