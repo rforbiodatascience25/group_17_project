@@ -1,0 +1,47 @@
+---
+title: "Preprosessing"
+format: html
+---
+
+## Loading data and libraries
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(readr)
+
+df <- read_csv(here("data/med_data.csv"))
+df |> head()
+```
+
+```{r}
+df |> group_by(income) |> count()
+```
+
+## Tidying data
+
+There are some issues we first adress
+
+1.  age is a high precision float that we will round to the nearest whole number
+2.  diagnosis is concatenated from multiple other colums. We will split it in two: class and group
+3.  income is a character string that we need to rank
+
+```{r}
+df_tidy <- df |>
+  mutate (age = round(age),
+          income =factor(income,
+                         levels=c("under $11k", "$11-$25k","$25-$50k",">$50k"))) |>
+  separate(col=diagnosis,
+           into = c("diag_group", "diag_class"),
+           sep = " , ")
+df_tidy
+```
+
+## Writing tidy data to disc
+
+We now write the data to server to have a common data file we can all work from.
+
+```{r}
+write_csv(df_tidy, file=here("data/med_data_tidy.csv"))
+```
