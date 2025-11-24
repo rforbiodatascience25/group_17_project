@@ -88,7 +88,7 @@ med_edu_high_model
 ```
 
 ```{r}
-df_med_edu_models <- tibble(edu_interval = c("low", "medium", "high"),
+df_med_edu_models <- tibble(group = c("edu_low", "edu_medium", "edu_high"),
                             model = list(med_edu_low_model, 
                                       med_edu_medium_model, 
                                       med_edu_high_model))
