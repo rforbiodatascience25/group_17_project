@@ -59,8 +59,39 @@ med_edu_grouped |>
 ```
 
 ```{r}
-
-
 edu_death_model <- lm(death ~ edu, data = med_edu)
 edu_death_model |> summary()
+```
+
+```{r}
+med_edu_low <- med_edu_grouped |> 
+  filter(edu == "(0-3]" | edu == "(3-6]" | edu == "(6-9]")
+
+med_edu_low_model <- lm(death ~ edu, data = med_edu_low)
+med_edu_low_model
+```
+
+```{r}
+med_edu_medium <- med_edu_grouped |> 
+  filter(edu == "(9-12]" | edu == "(12-15]" | edu == "(15-18]")
+
+med_edu_medium_model <- lm(death ~ edu, data = med_edu_medium)
+med_edu_medium_model
+```
+
+```{r}
+med_edu_high <- med_edu_grouped |> 
+  filter(edu == "(18-21]" | edu == "(21-24]" | edu == "(24-27]")
+
+med_edu_high_model <- lm(death ~ edu, data = med_edu_high)
+med_edu_high_model
+```
+
+```{r}
+df_med_edu_models <- tibble(edu_interval = c("low", "medium", "high"),
+                            model = list(med_edu_low_model, 
+                                      med_edu_medium_model, 
+                                      med_edu_high_model))
+
+df_med_edu_models
 ```
