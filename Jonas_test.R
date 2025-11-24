@@ -96,3 +96,16 @@ combined_table <- tibble::tibble(
 )
 
 combined_table
+
+
+DF_result <- tibble(
+  Analysis = c("All patients", "Cancer patients"),
+  models   = list(model_total, model_cancer)
+) %>%
+  left_join(combined_table, by = "Analysis") %>%
+  mutate(variable = "sex", .before = 1)
+
+DF_result
+#DF_result$models[[1]]
+#DF_result$models[[2]]
+
