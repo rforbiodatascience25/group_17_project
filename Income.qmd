@@ -38,16 +38,24 @@ clean_data
 
 ```{r}
 clean_data <- clean_data |>
-  mutate(income_class = case_when(income == "under 11k" ~ "Very poor",
-    income == "11-25k" ~ "Poor",
-    income == "25-50k" ~ "Middle class",
-    income == ">50k" ~ "Wealthy"),
-    income_num = case_when(income == "under 11k" ~ 11,
+    mutate(income_num = case_when(income == "under 11k" ~ 11,
     income == "11-25k" ~ 18,
     income == "25-50k" ~ 37.5,
     income == ">50k" ~ 50))
 
 clean_data
+```
+
+## Distribution plot
+
+```{r}
+income_plot <- ggplot(data = clean_data) +
+  geom_bar(aes(x = income,
+               fill = sex,), 
+           position = "dodge") +
+  labs(title="Distribution of income and sex in dataset")
+  
+income_plot
 ```
 
 ## Making the regression line
@@ -93,12 +101,41 @@ income_vs_everything |>
   summary()
 ```
 
+## Income vs. death
+
+```{r}
+incomedeath <- clean_data |>
+  group_by(income) |>
+  group_map(~ lm(income_num ~ death, data = .x))
+
+names(models) <- unique(clean_data$income_class)
+
+summaries <- models |> map(summary)
+summaries
+
+```
+
+```{r}
+$`under 11k`
+<full summary here>
+
+$`11-25k`
+<full summary here>
+
+$`25-50k`
+<full summary here>
+
+$`>50k`
+<full summary here>
+
+```
+
 ## Plots
 
 ```{r}
 pl1 <- clean_data |>
   ggplot(mapping = aes(x = income_class,
-                       y = diag_group,
+                       y = death,
                        colour = sex)) +
   geom_point() + 
   geom_smooth(method = "lm")
