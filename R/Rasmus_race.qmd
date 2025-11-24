@@ -10,6 +10,8 @@ format: html
 library(here)
 library(tidyverse)
 library(ggplot2)
+library(purrr)
+library(broom)
 ```
 
 ```{r}
@@ -27,24 +29,90 @@ df |> count() |> print() |> ungroup()
 ```{r}
 race_plot1 <- ggplot(data=df)+
   geom_bar(aes(x=race)) +
-  labs(title="Number of patients in the study, statified by race")
+  labs(title="Number of patients in the study, statified by race")+
+  theme(panel.grid.major = element_blank())
   
 race_plot1
 ```
 
 Since asian and other make up such small parts of the study, we will limit the analysis to black, hispanic and white. We will evaluate later if the hispanic sample size is also too small.
 
-```{r}
-df_race_stat <- data.frame(race=c("white","black","hispanic"))
-  
-#df |> filter(race %in% c("white", "black", "hispanic"))
-#df_race |> group_by(race) |>
-#  mutate(death_rate_any = mean(death))
-df_race_stat |> mutate(
-  n=count(x=df_race)
-)
-```
-
 ## Extracting features
 
-Now we will add columns to the grouped data.frame by calculating
+Now we will construct a tibble from summaries of grouped data
+
+```{r}
+df_race_stat1 <- df_race |> group_by(race) |>
+  summarise(mean_age = mean(age),
+            death_rate_any = mean(death),
+            count_any = n(),
+            se_death_any = sqrt(death_rate_any * (1-death_rate_any)/n()),
+            CI_dra_lower = death_rate_any-se_death_any*2,
+            CI_dra_upper = death_rate_any+se_death_any*2)
+
+print(df_race_stat1)
+```
+
+```{r}
+df_race_stat2 <- df_race |> group_by(race) |>
+  filter(diag_class == "Cancer") |>
+  summarise(death_rate_cancer = mean(death),
+            mean_age_cancer = mean(age),
+            count_cancer = n(),
+            se_death_cancer = sqrt(death_rate_cancer * (1-death_rate_cancer)/n()),
+            CI_drc_lower = death_rate_cancer-se_death_cancer*2,
+            CI_drc_upper = death_rate_cancer+se_death_cancer*2)
+
+df_race_stat <- df_race_stat1 |> full_join(df_race_stat2, by = "race") # joining cancer and total death rates
+df_race_stat
+```
+
+We also wanna add a row that contain the data for all patents to compare.
+
+```{r}
+ggplot(df_race_stat,
+       mapping = aes(x=race,y=death_rate_any))+
+  geom_col(fill='midnightblue',alpha=0.7)+
+  geom_errorbar(aes(ymin=CI_dra_lower, ymax=CI_dra_upper))+
+  labs(title = "Death rates of pateints of different races in the study with 2 std errorbars", y = 'Death rate', x='Race')
+```
+
+No race has a significantly different survival rate in the study
+
+The cancer scope is likely too small to derive any real meaning from here.
+
+## Modelling the effect of race on survival
+
+Finally, we will nest a linear model into the dataframe that tries to use race to explain death rate. First, we will make a boolean columb for each race
+
+```{r}
+df_race <- df_race |>
+  mutate(white = case_when(race=="white"~1,
+                           .default = 0),
+         black = case_when(race=="black"~1,
+                           .default = 0),
+         hispanic = case_when(race=="hispanic"~1,
+                           .default = 0)) 
+
+
+model_white = lm(formula = death~white,
+                 data=df_race)
+model_black = lm(formula = death~black,
+                 data=df_race)
+model_hispanic = lm(formula = death~hispanic,
+                 data=df_race)
+
+df_race_stat_models <- tibble(race = c('white','black','hispanic'),
+                              models = list(model_white,model_black,model_hispanic))
+df_race_stat <- df_race_stat |> right_join(df_race_stat_models, by='race') 
+df_race_stat |> select(race, models)
+```
+
+Now we add a column called group to merge it with the other analysis.
+
+```{r}
+df_race_models <- df_race_stat |>
+  mutate(group = str_glue("race_{race}")) |>
+  select(group,models)
+df_race_models |> write_rds(here("data/models/race.RDS"))
+```
