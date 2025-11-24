@@ -10,6 +10,8 @@ format: html
 library(here)
 library(tidyverse)
 library(ggplot2)
+library(purrr)
+library(broom)
 ```
 
 ```{r}
@@ -65,12 +67,52 @@ df_race_stat <- df_race_stat1 |> full_join(df_race_stat2, by = "race") # joining
 df_race_stat
 ```
 
+We also wanna add a row that contain the data for all patents to compare.
+
 ```{r}
 ggplot(df_race_stat,
        mapping = aes(x=race,y=death_rate_any))+
-  geom_col(fill='midnightblue')+
+  geom_col(fill='midnightblue',alpha=0.7)+
   geom_errorbar(aes(ymin=CI_dra_lower, ymax=CI_dra_upper))+
   labs(title = "Death rates of pateints of different races in the study with 2 std errorbars", y = 'Death rate', x='Race')
 ```
 
+No race has a significantly different survival rate in the study
+
 The cancer scope is likely too small to derive any real meaning from here.
+
+## Modelling the effect of race on survival
+
+Finally, we will nest a linear model into the dataframe that tries to use race to explain death rate. First, we will make a boolean columb for each race
+
+```{r}
+df_race <- df_race |>
+  mutate(white = case_when(race=="white"~1,
+                           .default = 0),
+         black = case_when(race=="black"~1,
+                           .default = 0),
+         hispanic = case_when(race=="hispanic"~1,
+                           .default = 0)) 
+
+
+model_white = lm(formula = death~white,
+                 data=df_race)
+model_black = lm(formula = death~black,
+                 data=df_race)
+model_hispanic = lm(formula = death~hispanic,
+                 data=df_race)
+
+df_race_stat_models <- tibble(race = c('white','black','hispanic'),
+                              models = list(model_white,model_black,model_hispanic))
+df_race_stat <- df_race_stat |> right_join(df_race_stat_models, by='race') 
+df_race_stat |> select(race, models)
+```
+
+Now we add a column called group to merge it with the other analysis.
+
+```{r}
+df_race_models <- df_race_stat |>
+  mutate(group = str_glue("race_{race}")) |>
+  select(group,models)
+df_race_models |> write_rds(here("data/models/race.RDS"))
+```
