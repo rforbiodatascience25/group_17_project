@@ -38,10 +38,16 @@ clean_data
 
 ```{r}
 clean_data <- clean_data |>
-    mutate(income_num = case_when(income == "under 11k" ~ 11,
-    income == "11-25k" ~ 18,
-    income == "25-50k" ~ 37.5,
-    income == ">50k" ~ 50))
+  mutate(
+    income_class = case_when(income == "under 11k" ~ "Very poor",
+      income == "11-25k"    ~ "Poor",
+      income == "25-50k"    ~ "Middle class",
+      income == ">50k"      ~ "Wealthy"
+    ),
+    income_num = case_when(income == "under 11k" ~ 11,
+      income == "11-25k"    ~ 18,
+      income == "25-50k"    ~ 37.5,
+      income == ">50k"      ~ 50))
 
 clean_data
 ```
@@ -112,21 +118,6 @@ names(models) <- unique(clean_data$income_class)
 
 summaries <- models |> map(summary)
 summaries
-
-```
-
-```{r}
-$`under 11k`
-<full summary here>
-
-$`11-25k`
-<full summary here>
-
-$`25-50k`
-<full summary here>
-
-$`>50k`
-<full summary here>
 
 ```
 
