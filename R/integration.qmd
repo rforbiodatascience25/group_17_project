@@ -10,6 +10,27 @@ library(broom)
 source(here("R/functions.R"))
 ```
 
-```{r}
+## Loading the linear models from previous analysis
 
+```{r}
+income <- read_rds(here("data/models/income.RDS"))
+race <- read_rds(here("data/models/race.RDS"))
+sex <- read_rds(here("data/models/sex.RDS"))
+#edu <- read_rds(here("data/models/edu.RDS"))
+```
+
+```{r}
+all_models <- bind_rows(income,race,sex,edu)
+all_models
+```
+
+```{r}
+all_models |> mutate(
+  nested_stats = map(.x=model,
+                     .f= get_model_stats))
+```
+
+```{r}
+fe<-race$model[[1]]
+get_model_stats(fe)
 ```

@@ -111,7 +111,7 @@ model_hispanic = lm(formula = death~hispanic,
                  data=df_race)
 
 df_race_stat_models <- tibble(race = c('white','black','hispanic'),
-                              models = list(model_white,model_black,model_hispanic))
+                              model = list(model_white,model_black,model_hispanic))
 df_race_stat <- df_race_stat |> right_join(df_race_stat_models, by='race') 
 df_race_stat |> select(race, models)
 ```
