@@ -64,7 +64,6 @@ title = "Total Survival by Sex"
 
 ```{r}
 # Plot: survival for cancer patients
-
 ggplot(df_cancer, aes(x = sex, fill = factor(death))) +
 geom_bar(position = "fill") +
 labs(
@@ -72,19 +71,16 @@ y = "Proportion",
 fill = "Death (1 = died)",
 title = "Cancer Survival by Sex"
 )
-
 ```
 
 
 ```{r}
 # Chi-square tests
-
 chi_total  <- chisq.test(table(df$sex, df$death))
 chi_cancer <- chisq.test(table(df_cancer$sex, df_cancer$death))
 
 chi_total
 chi_cancer
-
 ```
 
 ```{r}
@@ -152,6 +148,40 @@ DF_result
 DF_result$models[[1]]  # total
 DF_result$models[[2]]  # cancer
 
+```
+
+
+```{r}
+# Create male_binary and survival variables
+df <- df |>
+mutate(
+male_binary = ifelse(sex == "male", 1, 0),
+survival = 1 - death
+)
+head(df[, c("sex", "male_binary", "survival")])
+
+```
+
+```{r}
+female_model <- lm(survival ~ 1, data = df |> filter(sex == "female"))
+male_model <- lm(survival ~ 1, data = df |> filter(sex == "male"))
+
+model_df <- tibble(
+group = c("female", "male"),
+model = list(female_model, male_model)
+)
+
+model_df
+```
+
+```{r}
+saveRDS(model_df, here("data", "models", "sex.RDS"))
+
+readRDS(here("data", "models", "sex.RDS"))
+```
+```{r}
+summary(model_df$model[[1]])
+summary(model_df$model[[2]])
 ```
 
 
