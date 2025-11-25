@@ -33,24 +33,23 @@ med_edu |> ggplot(mapping = aes(x = edu)) +
 If we group the education by years of 3, we then get the following table:
 
 ```{r}
-med_edu_grouped <- med_edu |> 
-  mutate(edu = case_when(0 <= edu & edu < 3 ~ "(0-3]",
-                         3 <= edu & edu < 6 ~ "(3-6]",
-                         6 <= edu & edu < 9 ~ "(6-9]",
-                         9 <= edu & edu < 12 ~ "(9-12]",
-                         12 <= edu & edu < 15 ~ "(12-15]",
-                         15 <= edu & edu < 18 ~ "(15-18]",
-                         18 <= edu & edu < 21 ~ "(18-21]",
-                         21 <= edu & edu < 24 ~ "(21-24]",
-                         24 <= edu & edu < 27 ~ "(24-27]",
-                         27 <= edu & edu < 30 ~ "(27-30]"), 
-  edu = factor(edu, levels=c("(0-3]", "(3-6]","(6-9]","(9-12]","(12-15]","(15-18]","(18-21]","(21-24]","(24-27]","(27-30]")))
+med_edu <- med_edu |> 
+  mutate(edu = case_when(0 <= edu & edu < 9 ~ "(0-9]",
+                         9 <= edu & edu < 18 ~ "(9-18]",
+                         18 <= edu & edu < 30 ~ "(18-30]"), 
+         edu = factor(edu, levels = c("(0-9]","(9-18]", "(18-30]"))) |> 
+  mutate("low" = case_when(edu == "(0-9]" ~ 1,
+                           .default = 0)) |>
+  mutate("medium" = case_when(edu == "(9-18]" ~ 1,
+                           .default = 0)) |>
+  mutate("high" = case_when(edu == "(18-30]" ~ 1,
+                           .default = 0))
 
-med_edu_grouped |> group_by(edu) |> summarize(n = n())
+med_edu 
 ```
 
 ```{r}
-med_edu_grouped |>
+med_edu |>
   filter(!is.na(edu)) |>
   ggplot(aes(x = edu, y = death)) +
   stat_summary(fun = mean, geom = "col") +
@@ -64,26 +63,25 @@ edu_death_model |> summary()
 ```
 
 ```{r}
-med_edu_low <- med_edu_grouped |> 
-  filter(edu == "(0-3]" | edu == "(3-6]" | edu == "(6-9]")
+med_edu
+```
 
-med_edu_low_model <- lm(death ~ edu, data = med_edu_low)
+```{r}
+
+med_edu_low_model <- lm(death ~ low, data = med_edu)
 med_edu_low_model |> summary()
 ```
 
 ```{r}
-med_edu_medium <- med_edu_grouped |> 
-  filter(edu == "(9-12]" | edu == "(12-15]" | edu == "(15-18]")
 
-med_edu_medium_model <- lm(death ~ edu, data = med_edu_medium)
+
+med_edu_medium_model <- lm(death ~ medium, data = med_edu)
 med_edu_medium_model |> summary()
 ```
 
 ```{r}
-med_edu_high <- med_edu_grouped |> 
-  filter(edu == "(18-21]" | edu == "(21-24]" | edu == "(24-27]")
 
-med_edu_high_model <- lm(death ~ edu, data = med_edu_high)
+med_edu_high_model <- lm(death ~ high, data = med_edu)
 med_edu_high_model |> summary()
 ```
 
