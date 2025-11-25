@@ -45,6 +45,8 @@ med_edu <- med_edu |>
   mutate("high" = case_when(edu == "(18-30]" ~ 1,
                            .default = 0))
 
+med_edu |> write_rds(here("data/df_educat.RDS"))
+
 med_edu 
 ```
 
