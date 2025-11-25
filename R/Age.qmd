@@ -22,7 +22,6 @@ age_df <- tibble(
   model = list(age_model)
 )
 
-age_df
 
 saveRDS(age_df, here("data", "models", "age.RDS"))
 
