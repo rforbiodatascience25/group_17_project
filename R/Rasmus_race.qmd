@@ -28,7 +28,7 @@ df |> count() |> print() |> ungroup()
 
 ```{r}
 race_plot1 <- ggplot(data=df)+
-  geom_bar(aes(x=race)) +
+  geom_bar(aes(x=race),fill='midnightblue', alpha=0.7,color='darkgray') +
   labs(title="Number of patients in the study, statified by race")+
   theme(panel.grid.major = element_blank())
   
