@@ -1,0 +1,15 @@
+---
+title: "edu_or_age"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+We discovered a significant coloration between medium education and lowered death rates. However it would be reasonable to assume that age is correlated to education time. To test this, we will try to remove the age factor by adding the model prediction with the true value before modelling.
+
+```{r}
+read_rds()
+```
