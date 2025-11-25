@@ -53,9 +53,9 @@ med_edu |>
   filter(!is.na(edu)) |>
   ggplot(aes(x = edu, y = death)) +
   stat_summary(fun = mean, geom = "point") +
-  stat_summary(fun = mean, geom = "line", group = 1, color = "Red") +
+  stat_summary(fun = mean, geom = "line", group = 1, color = "black") +
   geom_hline(yintercept = mean(med_edu$death, na.rm = TRUE), 
-             linetype = "dotted", color = "blue", linewidth = 1)
+             linetype = "dotted", color = "red", linewidth = 1)
 ```
 
 ```{r}
