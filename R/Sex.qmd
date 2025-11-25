@@ -172,15 +172,7 @@ model = list(female_model, male_model)
 model_df
 
 ```
-```{r}
-#create age linear model for further analysis.
-age_model <- lm(death ~ age, data = df)
-age_df <- tibble(
-  group = "age",
-  model = list(age_model)
-)
-saveRDS(age_df, here("data", "model", "age.RDS"))
-readRDS(here("data", "model", "age.RDS"))
+
 ```
 
 ```{r}

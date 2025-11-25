@@ -1,0 +1,33 @@
+---
+title: "Sex analysis"
+format: html
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tibble)
+library(here)
+```
+
+```{r}
+df <- read.csv(here("data", "med_data_tidy.csv"))
+df
+```
+
+```{r}
+age_model <- lm(death ~ age, data = df)
+age_df <- tibble(
+  group = "age",
+  model = list(age_model)
+)
+
+age_df
+
+saveRDS(age_df, here("data", "models", "age.RDS"))
+
+
+readRDS(here("data", "models", "age.RDS"))
+
+```
+
