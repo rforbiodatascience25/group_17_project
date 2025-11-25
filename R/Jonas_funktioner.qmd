@@ -179,8 +179,8 @@ age_df <- tibble(
   group = "age",
   model = list(age_model)
 )
-saveRDS(age_df, here("data", "models", "age.RDS"))
-readRDS(here("data", "models", "age.RDS"))
+saveRDS(age_df, here("data", "model", "age.RDS"))
+readRDS(here("data", "model", "age.RDS"))
 ```
 
 ```{r}
