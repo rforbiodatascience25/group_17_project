@@ -93,5 +93,5 @@ df_med_edu_models <- tibble(group = c("edu_low", "edu_medium", "edu_high"),
                                       med_edu_medium_model, 
                                       med_edu_high_model))
 
-df_med_edu_models
+df_med_edu_models |> write_rds(here("data/models/edu.RDS"))
 ```
