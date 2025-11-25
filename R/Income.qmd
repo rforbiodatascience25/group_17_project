@@ -28,7 +28,7 @@ meta_data <- read_csv("../data/med_data_tidy.csv")
 ```{r}
 clean_data <- meta_data |>
   select(age, death, sex, diag_group, diag_class, income) |>
-  mutate(income = gsub("\\$", "", income)) |>
+  mutate(income = gsub("\\$", "", income)) |> #To remove $, otherwise i cannot income
   na.omit()
 
 clean_data
@@ -39,10 +39,10 @@ clean_data
 ```{r}
 clean_data <- clean_data |>
   mutate(
-    income_class = case_when(income == "under 11k" ~ "Very poor",
-      income == "11-25k"    ~ "Poor",
-      income == "25-50k"    ~ "Middle class",
-      income == ">50k"      ~ "Wealthy"
+    income_class = case_when(income == "under 11k" ~ "income very poor",
+      income == "11-25k"    ~ "income poor",
+      income == "25-50k"    ~ "income medium",
+      income == ">50k"      ~ "income wealthy"
     ),
     income_num = case_when(income == "under 11k" ~ 11,
       income == "11-25k"    ~ 18,
@@ -141,16 +141,6 @@ glm(death ~ income_num, data = clean_data, family = binomial)
 ```
 
 ```{r}
-df <- clean_data |>
-  mutate(
-    Verylow = case_when(income_class == "Very poor" ~ 1, .default = 0),
-    Low     = case_when(income_class == "Poor" ~ 1, .default = 0),
-    Middle  = case_when(income_class == "Middle class" ~ 1, .default = 0),
-    Rich    = case_when(income_class == "Wealthy" ~ 1, .default = 0))
-
-```
-
-```{r}
 clean_data
 ```
 
@@ -208,11 +198,10 @@ df_med_income_models
 ```{r}
 df_income <- clean_data |>
   mutate(
-    verypoor = case_when(income_class == "Income very low" ~ 1, .default = 0),
-    poor     = case_when(income_class == "Income low" ~ 1, .default = 0),
-    middle   = case_when(income_class == "Income medium" ~ 1, .default = 0),
-    wealthy  = case_when(income_class == "Income wealthy" ~ 1, .default = 0))
-
+    verypoor = case_when(income_class == "income very low" ~ 1, .default = 0),
+    poor     = case_when(income_class == "income low" ~ 1, .default = 0),
+    middle   = case_when(income_class == "income medium" ~ 1, .default = 0),
+    wealthy  = case_when(income_class == "income wealthy" ~ 1, .default = 0))
 
 ```
 
@@ -222,6 +211,7 @@ model_poor     <- lm(death ~ poor, data = df_income)
 model_middle   <- lm(death ~ middle, data = df_income)
 model_wealthy  <- lm(death ~ wealthy, data = df_income)
 
+df_income
 ```
 
 ```{r}
@@ -239,22 +229,7 @@ df_income_models <- df_income_stat_models |>
 ```
 
 ```{r}
-summary(df_income_stat_models$model[[1]])  #Very poor
-summary(df_income_stat_models$model[[2]])  #Poor
-summary(df_income_stat_models$model[[3]])  #Middle class
-summary(df_income_stat_models$model[[4]])  #Wealthy
-
+df_income
 ```
 
 ## Plots
-
-Making boxplot/ histograms
-
-```{r}
-boxplots <- med_income_verylow |>
-    geom_boxplot(aes(x = death,
-               fill = sex,), 
-           position = "dodge" +
-  labs(title="Distribution of death based on income")
-  
-```
