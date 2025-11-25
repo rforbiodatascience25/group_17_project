@@ -151,7 +151,7 @@ summary(DF_result$models[[2]])  # cancer
 
 
 ```{r}
-# Create male_binary and survival variables
+# Create male_binary and female_binary.
 df <- df |>
 mutate(male_binary = ifelse(sex == "male", 1, 0),
        female_binary = ifelse(sex == "female", 1, 0)
@@ -170,6 +170,17 @@ model = list(female_model, male_model)
 )
 
 model_df
+
+```
+```{r}
+#create age linear model for further analysis.
+age_model <- lm(death ~ age, data = df)
+age_df <- tibble(
+  group = "age",
+  model = list(age_model)
+)
+saveRDS(age_df, here("data", "models", "age.RDS"))
+readRDS(here("data", "models", "age.RDS"))
 ```
 
 ```{r}
