@@ -43,8 +43,8 @@ CI_upper = death_rate + 2 * se,
 total_stats  <- summarise_by_sex(df)
 cancer_stats <- summarise_by_sex(df_cancer)
 
-total_stats
-cancer_stats
+print(total_stats)
+print(cancer_stats)
 ```
 
 
@@ -75,7 +75,7 @@ title = "Cancer Survival by Sex"
 
 
 ```{r}
-# Chi-square tests
+# we can perform chi-square tests to get p_value 
 chi_total  <- chisq.test(table(df$sex, df$death))
 chi_cancer <- chisq.test(table(df_cancer$sex, df_cancer$death))
 
@@ -85,7 +85,6 @@ chi_cancer
 
 ```{r}
 # Linear models and R²
-
 model_total  <- lm(death ~ sex, data = df)
 model_cancer <- lm(death ~ sex, data = df_cancer)
 
@@ -145,8 +144,8 @@ mutate(variable = "sex", .before = 1)
 
 DF_result
 
-DF_result$models[[1]]  # total
-DF_result$models[[2]]  # cancer
+summary(DF_result$models[[1]])  # total
+summary(DF_result$models[[2]])  # cancer
 
 ```
 
@@ -154,17 +153,16 @@ DF_result$models[[2]]  # cancer
 ```{r}
 # Create male_binary and survival variables
 df <- df |>
-mutate(
-male_binary = ifelse(sex == "male", 1, 0),
-survival = 1 - death
+mutate(male_binary = ifelse(sex == "male", 1, 0),
+       female_binary = ifelse(sex == "female", 1, 0)
 )
-head(df[, c("sex", "male_binary", "survival")])
+head(df[, c("sex", "male_binary", "female_binary")])
 
 ```
 
 ```{r}
-female_model <- lm(survival ~ 1, data = df |> filter(sex == "female"))
-male_model <- lm(survival ~ 1, data = df |> filter(sex == "male"))
+female_model <- lm(death ~ female_binary, data = df)
+male_model <-   lm(death ~ male_binary, data = df)
 
 model_df <- tibble(
 group = c("female", "male"),
@@ -175,7 +173,7 @@ model_df
 ```
 
 ```{r}
-saveRDS(model_df, here("data", "models", "sex.RDS"))
+saveRDS(model_df, here("data/models/sex.RDS"))
 
 readRDS(here("data", "models", "sex.RDS"))
 ```
