@@ -141,6 +141,20 @@ glm(death ~ income_num, data = clean_data, family = binomial)
 ```
 
 ```{r}
+df <- clean_data |>
+  mutate(
+    Verylow = case_when(income_class == "Very poor" ~ 1, .default = 0),
+    Low     = case_when(income_class == "Poor" ~ 1, .default = 0),
+    Middle  = case_when(income_class == "Middle class" ~ 1, .default = 0),
+    Rich    = case_when(income_class == "Wealthy" ~ 1, .default = 0))
+
+```
+
+```{r}
+clean_data
+```
+
+```{r}
 med_income_verylow <- clean_data |> 
   filter(income_num == 11)
 
@@ -191,4 +205,56 @@ df_med_income_models <- tibble(
 df_med_income_models
 ```
 
+```{r}
+df_income <- clean_data |>
+  mutate(
+    verypoor = case_when(income_class == "Income very low" ~ 1, .default = 0),
+    poor     = case_when(income_class == "Income low" ~ 1, .default = 0),
+    middle   = case_when(income_class == "Income medium" ~ 1, .default = 0),
+    wealthy  = case_when(income_class == "Income wealthy" ~ 1, .default = 0))
+
+
+```
+
+```{r}
+model_verypoor <- lm(death ~ verypoor, data = df_income)
+model_poor     <- lm(death ~ poor, data = df_income)
+model_middle   <- lm(death ~ middle, data = df_income)
+model_wealthy  <- lm(death ~ wealthy, data = df_income)
+
+```
+
+```{r}
+df_income_stat_models <- tibble(
+  group = c("Income very low", "Income low", "Income medium", "Income wealthy"),
+  model  = list(model_verypoor, model_poor, model_middle, model_wealthy))
+
+
+```
+
+```{r}
+df_income_models <- df_income_stat_models |>
+  write_rds(here("data/models/income.RDS"))
+
+```
+
+```{r}
+summary(df_income_stat_models$model[[1]])  #Very poor
+summary(df_income_stat_models$model[[2]])  #Poor
+summary(df_income_stat_models$model[[3]])  #Middle class
+summary(df_income_stat_models$model[[4]])  #Wealthy
+
+```
+
 ## Plots
+
+Making boxplot/ histograms
+
+```{r}
+boxplots <- med_income_verylow |>
+    geom_boxplot(aes(x = death,
+               fill = sex,), 
+           position = "dodge" +
+  labs(title="Distribution of death based on income")
+  
+```
