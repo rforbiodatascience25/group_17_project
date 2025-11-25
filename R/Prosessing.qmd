@@ -53,8 +53,8 @@ med_edu_grouped |> group_by(edu) |> summarize(n = n())
 med_edu_grouped |>
   filter(!is.na(edu)) |>
   ggplot(aes(x = edu, y = death)) +
-  stat_summary(fun = mean, geom = "point", size = 3) +
-  stat_summary(fun = mean, geom = "line", group = 1)
+  stat_summary(fun = mean, geom = "col") +
+  stat_summary(fun = mean, geom = "line", group = 1, color = "Red")
 
 ```
 
@@ -68,7 +68,7 @@ med_edu_low <- med_edu_grouped |>
   filter(edu == "(0-3]" | edu == "(3-6]" | edu == "(6-9]")
 
 med_edu_low_model <- lm(death ~ edu, data = med_edu_low)
-med_edu_low_model
+med_edu_low_model |> summary()
 ```
 
 ```{r}
@@ -76,7 +76,7 @@ med_edu_medium <- med_edu_grouped |>
   filter(edu == "(9-12]" | edu == "(12-15]" | edu == "(15-18]")
 
 med_edu_medium_model <- lm(death ~ edu, data = med_edu_medium)
-med_edu_medium_model
+med_edu_medium_model |> summary()
 ```
 
 ```{r}
@@ -84,7 +84,7 @@ med_edu_high <- med_edu_grouped |>
   filter(edu == "(18-21]" | edu == "(21-24]" | edu == "(24-27]")
 
 med_edu_high_model <- lm(death ~ edu, data = med_edu_high)
-med_edu_high_model
+med_edu_high_model |> summary()
 ```
 
 ```{r}

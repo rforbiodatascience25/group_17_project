@@ -12,6 +12,7 @@ library(tidyverse)
 library(ggplot2)
 library(purrr)
 library(broom)
+library(stringr)
 ```
 
 ```{r}
@@ -22,20 +23,27 @@ df_full <- read_csv(here("data/med_data_tidy.csv"))
 df <- df_full |> select(race,age,diag_group,diag_class,death) 
 
 #filter out all rows where race was not specified, and count the abundance of each race in the study
-df <- df |> filter(!is.na(race)) |> group_by(race)
-df |> count() |> print() |> ungroup()
+df_race <- df |> filter(!is.na(race)) |> group_by(race)
+df_race |> count() |> print() |> ungroup()
 ```
 
 ```{r}
-race_plot1 <- ggplot(data=df)+
-  geom_bar(aes(x=race)) +
+race_plot1 <- ggplot(data=df_race)+
+  geom_bar(aes(x=race),fill='midnightblue', alpha=0.7,color='darkgray') +
   labs(title="Number of patients in the study, statified by race")+
   theme(panel.grid.major = element_blank())
+  
   
 race_plot1
 ```
 
 Since asian and other make up such small parts of the study, we will limit the analysis to black, hispanic and white. We will evaluate later if the hispanic sample size is also too small.
+
+```{r}
+df_race <- df_race |> 
+  filter(race %in% c('white','black','hispanic'))
+df_race
+```
 
 ## Extracting features
 
@@ -115,4 +123,5 @@ df_race_models <- df_race_stat |>
   mutate(group = str_glue("race_{race}")) |>
   select(group,models)
 df_race_models |> write_rds(here("data/models/race.RDS"))
+df_race_models
 ```
