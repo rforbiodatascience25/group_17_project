@@ -113,7 +113,7 @@ model_hispanic = lm(formula = death~hispanic,
 df_race_stat_models <- tibble(race = c('white','black','hispanic'),
                               model = list(model_white,model_black,model_hispanic))
 df_race_stat <- df_race_stat |> right_join(df_race_stat_models, by='race') 
-df_race_stat |> select(race, models)
+df_race_stat |> select(race, model)
 ```
 
 Now we add a column called group to merge it with the other analysis.
@@ -121,7 +121,7 @@ Now we add a column called group to merge it with the other analysis.
 ```{r}
 df_race_models <- df_race_stat |>
   mutate(group = str_glue("race_{race}")) |>
-  select(group,models)
+  select(group,model)
 df_race_models |> write_rds(here("data/models/race.RDS"))
 df_race_models
 ```

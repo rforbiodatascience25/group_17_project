@@ -16,21 +16,29 @@ source(here("R/functions.R"))
 income <- read_rds(here("data/models/income.RDS"))
 race <- read_rds(here("data/models/race.RDS"))
 sex <- read_rds(here("data/models/sex.RDS"))
-#edu <- read_rds(here("data/models/edu.RDS"))
+edu <- read_rds(here("data/models/edu.RDS"))
+age <- read_rds(here("data/models/age.RDS"))
 ```
 
 ```{r}
-all_models <- bind_rows(income,race,sex,edu)
+all_models <- bind_rows(income,race,sex,age,edu)
 all_models
 ```
 
 ```{r}
-all_models |> mutate(
+all_models <- all_models |> mutate(
   nested_stats = map(.x=model,
                      .f= get_model_stats))
+all_models
 ```
 
 ```{r}
-fe<-race$model[[1]]
-get_model_stats(fe)
+all_models <- all_models |>
+  unnest(nested_stats) |> 
+  select(group,slope_est, slope_p, everything(),-model)
+
+```
+
+```{r}
+all_models |> arrange(slope_p)
 ```
