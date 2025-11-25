@@ -42,3 +42,7 @@ all_models <- all_models |>
 ```{r}
 all_models |> arrange(slope_p)
 ```
+
+```{r}
+all_models |> write_rds(here("data/compared_models.RDS"))
+```
