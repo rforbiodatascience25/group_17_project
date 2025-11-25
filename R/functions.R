@@ -17,4 +17,3 @@ get_model_stats <- function(model){
   return(out_tible)
 }
 
-get_model_stats(model_white)
