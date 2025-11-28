@@ -7,6 +7,7 @@ format: html
 library(here)
 library(tidyverse)
 library(broom)
+library(patchwork)
 source(here("R/functions.R"))
 ```
 
@@ -45,4 +46,41 @@ all_models |> arrange(slope_p)
 
 ```{r}
 all_models |> write_rds(here("data/compared_models.RDS"))
+```
+
+```{r}
+p_accept <- all_models |> mutate(Significant = slope_p < 0.05)
+
+
+p1 <- ggplot(p_accept, aes(x = group, y = R_squared, color = Significant)) +
+  
+  geom_point() +
+  
+  scale_color_manual(values = c("FALSE" = "black", "TRUE" = "red")) +
+  
+  labs(title = "Model R-squared values",        
+    center =TRUE) +
+    
+  xlab("Model") + ylab("R-squared") +
+  
+  theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.position   = "bottom")
+
+
+
+p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
+  
+  geom_point() +
+  
+  scale_color_manual(values = c("FALSE" = "black", "TRUE" = "red")) +
+  
+  labs(title = "Model slope p-values",        
+    center =TRUE) +
+    
+  xlab("Model") + ylab("P-values") +
+  
+  theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.position   = "bottom")
+
+
+
+p1 + p2
 ```
