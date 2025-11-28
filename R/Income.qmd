@@ -198,8 +198,8 @@ df_med_income_models
 ```{r}
 df_income <- clean_data |>
   mutate(
-    verypoor = case_when(income_class == "income very low" ~ 1, .default = 0),
-    poor     = case_when(income_class == "income low" ~ 1, .default = 0),
+    verypoor = case_when(income_class == "income very poor" ~ 1, .default = 0),
+    poor     = case_when(income_class == "income poor" ~ 1, .default = 0),
     middle   = case_when(income_class == "income medium" ~ 1, .default = 0),
     wealthy  = case_when(income_class == "income wealthy" ~ 1, .default = 0))
 
@@ -226,10 +226,6 @@ df_income_stat_models <- tibble(
 df_income_models <- df_income_stat_models |>
   write_rds(here("data/models/income.RDS"))
 
-```
-
-```{r}
-df_income
 ```
 
 ## Plots
