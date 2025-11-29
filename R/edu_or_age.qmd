@@ -11,5 +11,16 @@ library(here)
 We discovered a significant coloration between medium education and lowered death rates. However it would be reasonable to assume that age is correlated to education time. To test this, we will try to remove the age factor by adding the model prediction with the true value before modelling.
 
 ```{r}
-read_rds()
+#| message: false
+df <- readRDS(here("data/df_educat.RDS")) |>
+  select(edu,age,death) |>
+  filter(!is.na(edu))
+
+age_model <- compared_models |> filter(group == 'age')
+age_model
+```
+
+```{r}
+df <- df |>
+  mutate(death_predict_age = )
 ```

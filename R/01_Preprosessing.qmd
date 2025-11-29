@@ -15,27 +15,25 @@ df <- read_csv(here("data/med_data.csv"))
 df |> head()
 ```
 
-```{r}
-df |> group_by(income) |> count()
-```
-
 ## Tidying data
 
-There are some issues we first adress
+There are some issues we first address
 
-1.  age is a high precision float that we will round to the nearest whole number
-2.  diagnosis is concatenated from multiple other colums. We will split it in two: class and group
-3.  income is a character string that we need to rank
+1.  Age is a high precision float that we will round to the nearest whole number
+2.  Diagnosis is concatenated from multiple other colums. We will split it in two: class and group
+3.  Income is a character string that we need to rank
+
+We will address NAs later as different datapoints are needed for different analysis.
 
 ```{r}
 df_tidy <- df |>
   mutate (age = round(age),
-          income =factor(income,
-                         levels=c("under $11k", "$11-$25k","$25-$50k",">$50k"))) |>
+          income = factor(income,
+                          levels=c("under $11k", "$11-$25k","$25-$50k",">$50k"))) |>
   separate(col=diagnosis,
            into = c("diag_group", "diag_class"),
            sep = " , ")
-df_tidy
+df_tidy |> head()
 ```
 
 ## Writing tidy data to disc
