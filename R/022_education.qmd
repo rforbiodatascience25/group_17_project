@@ -14,12 +14,15 @@ library(readr)
 
 ### Medicine Equality in Education
 
+first we load the cleaned data and filter out all patients that haven't registered education.
+
 ```{r}
-med_edu <- read_csv(here("data/med_data_tidy.csv"))
-med_edu
+#| message: false
+med_edu <- read_csv(here("data/med_data_tidy.csv")) |> filter(!is.na(edu))
+med_edu 
 ```
 
-Getting an overview of the amount of years of education shows that 8-15 years is the most common and will heavily sceew the coming analysis.
+Getting an overview of the amount of years of education shows that 8-15 years is the most common and will heavily scew the coming analysis.
 
 ```{r}
 med_edu |> ggplot(mapping = aes(x = edu)) + 
@@ -30,7 +33,7 @@ med_edu |> ggplot(mapping = aes(x = edu)) +
 
 ```
 
-If we group the education by years of 3, we then get the following table:
+We do not have enough datapoints to have a meaningful death rate for all amounts of education, so we chose to split them up in intervals.
 
 ```{r}
 med_edu <- med_edu |> 
@@ -58,6 +61,7 @@ med_edu |>
   stat_summary(fun = mean, geom = "line", group = 1, color = "black") +
   geom_hline(yintercept = mean(med_edu$death, na.rm = TRUE), 
              linetype = "dotted", color = "red", linewidth = 1)
+
 ```
 
 ```{r}

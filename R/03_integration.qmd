@@ -8,7 +8,7 @@ library(here)
 library(tidyverse)
 library(broom)
 library(patchwork)
-source(here("R/functions.R"))
+source(here("R/99_functions.R"))
 ```
 
 ## Loading the linear models from previous analysis
@@ -84,3 +84,5 @@ p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
 
 p1 + p2
 ```
+
+
