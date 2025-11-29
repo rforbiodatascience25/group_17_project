@@ -52,27 +52,13 @@ Now we will construct a tibble from summaries of grouped data
 ```{r}
 df_race_stat1 <- df_race |> group_by(race) |>
   summarise(mean_age = mean(age),
-            death_rate_any = mean(death),
-            count_any = n(),
-            se_death_any = sqrt(death_rate_any * (1-death_rate_any)/n()),
-            CI_dra_lower = death_rate_any-se_death_any*2,
-            CI_dra_upper = death_rate_any+se_death_any*2)
+            death_rate = mean(death),
+            count = n(),
+            se_death = sqrt(death_rate * (1-death_rate)/n()),
+            CI_dra_lower = death_rate-se_death*2,
+            CI_dra_upper = death_rate+se_death*2)
 
 print(df_race_stat1)
-```
-
-```{r}
-df_race_stat2 <- df_race |> group_by(race) |>
-  filter(diag_class == "Cancer") |>
-  summarise(death_rate_cancer = mean(death),
-            mean_age_cancer = mean(age),
-            count_cancer = n(),
-            se_death_cancer = sqrt(death_rate_cancer * (1-death_rate_cancer)/n()),
-            CI_drc_lower = death_rate_cancer-se_death_cancer*2,
-            CI_drc_upper = death_rate_cancer+se_death_cancer*2)
-
-df_race_stat <- df_race_stat1 |> full_join(df_race_stat2, by = "race") # joining cancer and total death rates
-df_race_stat
 ```
 
 We also wanna add a row that contain the data for all patents to compare.
@@ -85,9 +71,7 @@ ggplot(df_race_stat,
   labs(title = "Death rates of pateints of different races in the study with 2 std errorbars", y = 'Death rate', x='Race')
 ```
 
-No race has a significantly different survival rate in the study
-
-The cancer scope is likely too small to derive any real meaning from here.
+No race has a significantly different survival rate in the study.
 
 ## Modelling the effect of race on survival
 

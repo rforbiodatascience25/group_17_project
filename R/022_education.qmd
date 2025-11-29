@@ -66,10 +66,6 @@ edu_death_model |> summary()
 ```
 
 ```{r}
-med_edu
-```
-
-```{r}
 
 med_edu_low_model <- lm(death ~ low, data = med_edu)
 med_edu_low_model |> summary()

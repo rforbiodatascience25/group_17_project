@@ -8,19 +8,19 @@ library(tidyverse)
 library(here)
 ```
 
-We discovered a significant coloration between medium education and lowered death rates. However it would be reasonable to assume that age is correlated to education time. To test this, we will try to remove the age factor by adding the model prediction with the true value before modelling.
+We discovered a significant coloration between medium education and lowered death rates. However it would be reasonable to assume that age is correlated to education time. To test this, we will try to make a linear model that uses both age and education to explain death.
 
 ```{r}
 #| message: false
 df <- readRDS(here("data/df_educat.RDS")) |>
-  select(edu,age,death) |>
-  filter(!is.na(edu))
+  select(medium,age,death) |>
+  filter(!is.na(medium))
 
-age_model <- compared_models |> filter(group == 'age')
-age_model
+combined_model <- df |> lm(formula=death ~ edu + age,
+         data=_)
+combined_model |> summary()
 ```
 
 ```{r}
-df <- df |>
-  mutate(death_predict_age = )
+
 ```
