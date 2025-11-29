@@ -23,12 +23,12 @@ library(here)
 meta_data <- read_csv("../data/med_data_tidy.csv")
 ```
 
-## Preparing the metadata for analysis
+## Preparing the data for analysis
 
 ```{r}
 clean_data <- meta_data |>
   select(age, death, sex, diag_group, diag_class, income) |>
-  mutate(income = gsub("\\$", "", income)) |> #To remove $, otherwise i cannot income
+  mutate(income = gsub("\\$", "", income)) |> #To remove $ from the data
   na.omit()
 
 clean_data

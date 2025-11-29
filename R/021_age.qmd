@@ -42,7 +42,7 @@ ggplot(aug, aes(x = age, y = death)) +
        x = "Age",
        y = "Probability of Death")
 ```
-# we can see that the probabilty of death, increases as the patients age. 
+We can see that the probabilty of death, increases as the patients age. 
 
 ```{r}
 ggplot(aug, aes(.fitted, .resid)) +
@@ -60,10 +60,10 @@ ggplot(aug, aes(sample = .resid)) +
   labs(title = "QQ Plot of Model Residuals")
 
 ```
-# QQ plot to compare the residuals to the normal distribution.
-# The points fall into to almost horizontal lines, instead of following the diagnoal line. 
-# This confirms that the residuals are not at all normally distributed (which is not very suprising 
-# since they are binary), and this violates the normality assumption of the linear model.
+QQ plot to compare the residuals to the normal distribution.
+The points fall into to almost horizontal lines, instead of following the diagnoal line. 
+This confirms that the residuals are not at all normally distributed (which is not very suprising 
+since they are binary), and this violates the normality assumption of the linear model.
 
 
 # test of logistic regression to compare.

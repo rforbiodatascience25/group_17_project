@@ -88,11 +88,13 @@ med_edu_high_model <- lm(death ~ high, data = med_edu)
 med_edu_high_model |> summary()
 ```
 
+We nest the model into dataframe ready for comparison
+
 ```{r}
 df_med_edu_models <- tibble(group = c("edu_low", "edu_medium", "edu_high"),
                             model = list(med_edu_low_model, 
-                                      med_edu_medium_model, 
-                                      med_edu_high_model))
+                                         med_edu_medium_model, 
+                                         med_edu_high_model))
 
 df_med_edu_models |> write_rds(here("data/models/edu.RDS"))
 ```
