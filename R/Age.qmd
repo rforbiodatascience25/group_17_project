@@ -28,5 +28,61 @@ saveRDS(age_df, here("data", "models", "age.RDS"))
 
 readRDS(here("data", "models", "age.RDS"))
 
+
 ```
 
+```{r}
+
+aug <- augment(age_model)
+
+ggplot(aug, aes(x = age, y = death)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(title = "Death vs Age (Linear Model)",
+       x = "Age",
+       y = "Probability of Death")
+```
+# we can see that the probabilty of death, increases as the patients age. 
+
+```{r}
+ggplot(aug, aes(.fitted, .resid)) +
+  geom_point(alpha = 0.4) +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(title = "Residuals vs Fitted Values")
+```
+# The residuals show a strong pattern, rather than a random scatter.
+# the model forms two diagonal bands which indicates that the model is systematically either over or # under predicting for the different age groups. 
+# this indicates that a linear model is not suitable for binary outcome. 
+```{r}
+ggplot(aug, aes(sample = .resid)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "QQ Plot of Model Residuals")
+
+```
+# QQ plot to compare the residuals to the normal distribution.
+# The points fall into to almost horizontal lines, instead of following the diagnoal line. 
+# This confirms that the residuals are not at all normally distributed (which is not very suprising 
+# since they are binary), and this violates the normality assumption of the linear model.
+
+
+# test of logistic regression to compare.
+```{r}
+#Logistic regression
+age_log_model <- glm(death ~ age, data = df, family = binomial)
+
+# Create augmented data for plotting
+log_aug <- augment(age_log_model, type.predict = "response")
+
+# Plot logistic regression fitted values
+ggplot(log_aug, aes(x = age, y = .fitted)) +
+  geom_point(alpha = 0.4) +
+  geom_line(color = "blue", size = 1) +
+  labs(
+    title = "Predicted Probability of Death",
+    x = "Age",
+    y = "Predicted Probability"
+  )
+```
+# the above logistic models predicts death as function of age
+# in this analysis the probabilty of age is restricted to the interval [0,1] which is more appropiate # for a binary outcome.  
