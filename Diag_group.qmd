@@ -1,0 +1,106 @@
+---
+title: "Diagnosis of group"
+format: html
+editor: visual
+---
+
+## Load libraries and data
+
+### Load libraries
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+```
+
+### Load data
+
+```{r}
+#| message: false
+meta_data <- read_csv("data/med_data_tidy.csv")
+```
+
+## Preparing the metadata for analysis
+
+```{r}
+df <- meta_data |>
+  select(age, death, sex, diag_group, diag_class)
+df
+```
+
+```{r}
+df_diag <- df |>
+  mutate(lung_cancer = case_when(diag_group == "Lung Cancer"~1, 
+                                 .default = 0),
+         colon_cancer = case_when(diag_group == "Colon Cancer"~1,
+                                  .default = 0),
+         ARF_MOSF = case_when(diag_group == "ARF/MOSF w/Sepsis"~1,
+                              .default = 0),
+         cirrhosis = case_when(diag_group == "Cirrhosis"~1,
+                               .default = 0),
+         MOSF = case_when(diag_group == "MOSF w/Malig"~1,
+                          .default = 0),
+         CHF = case_when(diag_group == "CHF"~1,
+                         .default = 0),
+         COPD = case_when(diag_group == "COPD"~1,
+                          .default = 0),
+         coma = case_when(diag_group == "Coma"~1,
+                          .default = 0))
+
+model_lung_cancer <- lm(death ~ lung_cancer, data = df_diag)
+model_colon_cancer <- lm(death ~ colon_cancer, data = df_diag)
+model_ARF_MOSF <- lm(death ~ ARF_MOSF, data = df_diag)
+model_cirrhosis <- lm(death ~ cirrhosis, data = df_diag)
+model_MOSF <- lm(death ~ MOSF, data = df_diag)
+model_CHF <- lm(death ~ CHF, data = df_diag)
+model_COPD <- lm(death ~ COPD, data = df_diag)
+model_coma <- lm(death ~ coma, data = df_diag)
+
+df_diag_stat_models <- tibble(
+  diag_group = c(
+    "Lung Cancer",
+    "Colon Cancer",
+    "ARF/MOSF w/Sepsis",
+    "Cirrhosis",
+    "MOSF w/Malig",
+    "CHF",
+    "COPD",
+    "Coma"
+  ),
+  model = list(
+    model_lung_cancer,
+    model_colon_cancer,
+    model_ARF_MOSF,
+    model_cirrhosis,
+    model_MOSF,
+    model_CHF,
+    model_COPD,
+    model_coma))
+
+
+```
+
+```{r}
+df_race <- df_race |>
+  mutate(white = case_when(race=="white"~1,
+                           .default = 0),
+         black = case_when(race=="black"~1,
+                           .default = 0),
+         hispanic = case_when(race=="hispanic"~1,
+                           .default = 0)) 
+
+
+model_white = lm(formula = death~white,
+                 data=df_race)
+model_black = lm(formula = death~black,
+                 data=df_race)
+model_hispanic = lm(formula = death~hispanic,
+                 data=df_race)
+
+df_race_stat_models <- tibble(race = c('white','black','hispanic'),
+                              model = list(model_white,model_black,model_hispanic))
+df_race_stat <- df_race_stat |> right_join(df_race_stat_models, by='race') 
+df_race_stat |> select(race, model)
+
+```
