@@ -30,6 +30,16 @@ df
 ```
 
 ```{r}
+diagnosis_plot <- ggplot(data = df) +
+  geom_bar(aes(x = diag_group,
+               fill = sex,), 
+           position = "dodge") +
+  labs(title="Distribution of income and sex in dataset")
+  
+diagnosis_plot
+```
+
+```{r}
 df_diag <- df |>
   mutate(lung_cancer = case_when(diag_group == "Lung Cancer"~1, 
                                  .default = 0),
@@ -57,50 +67,12 @@ model_CHF <- lm(death ~ CHF, data = df_diag)
 model_COPD <- lm(death ~ COPD, data = df_diag)
 model_coma <- lm(death ~ coma, data = df_diag)
 
-df_diag_stat_models <- tibble(
-  diag_group = c(
-    "Lung Cancer",
-    "Colon Cancer",
-    "ARF/MOSF w/Sepsis",
-    "Cirrhosis",
-    "MOSF w/Malig",
-    "CHF",
-    "COPD",
-    "Coma"
-  ),
-  model = list(
-    model_lung_cancer,
-    model_colon_cancer,
-    model_ARF_MOSF,
-    model_cirrhosis,
-    model_MOSF,
-    model_CHF,
-    model_COPD,
-    model_coma))
-
+df_diag_stat_models <- tibble(group = c("Lung Cancer", "Colon Cancer", "ARF/MOSF w/Sepsis", "Cirrhosis", "MOSF w/Malig", "CHF", "COPD", "Coma"),
+  model = list(model_lung_cancer,model_colon_cancer, model_ARF_MOSF, model_cirrhosis,model_MOSF, model_CHF, model_COPD, model_coma))
 
 ```
 
 ```{r}
-df_race <- df_race |>
-  mutate(white = case_when(race=="white"~1,
-                           .default = 0),
-         black = case_when(race=="black"~1,
-                           .default = 0),
-         hispanic = case_when(race=="hispanic"~1,
-                           .default = 0)) 
-
-
-model_white = lm(formula = death~white,
-                 data=df_race)
-model_black = lm(formula = death~black,
-                 data=df_race)
-model_hispanic = lm(formula = death~hispanic,
-                 data=df_race)
-
-df_race_stat_models <- tibble(race = c('white','black','hispanic'),
-                              model = list(model_white,model_black,model_hispanic))
-df_race_stat <- df_race_stat |> right_join(df_race_stat_models, by='race') 
-df_race_stat |> select(race, model)
-
+df_diag_group_models <- df_diag_stat_models |>
+  write_rds(here("data/models/diagnosis.RDS"))
 ```
