@@ -1,0 +1,24 @@
+---
+title: "Group 17 r4dbs"
+author:
+  - "Dannie Olesen (S235402)"
+  - "Jonas Rafn (S235359)"
+  - "Rasmus Bertelsen (S235350)"
+  - "Casper Tietgen (S235404)"
+format: revealjs
+---
+
+## Introduction of data 
+- Support.tsv
+- Subset of larger medical dataset
+
+## Our Workflow
+![](../results/Dataflow.png){width=80%}
+
+## Data processing the Raw data
+```{r}
+library(readr)
+
+raw <- read_tsv("../data/raw/support.tsv")
+head(raw)
+
