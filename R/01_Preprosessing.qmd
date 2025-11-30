@@ -1,6 +1,7 @@
 ---
 title: "01_Preprosessing"
 format: html
+output-dir:  
 ---
 
 ## Loading data and libraries

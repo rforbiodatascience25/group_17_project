@@ -55,7 +55,8 @@ med_edu |> ggplot(mapping = aes(x = edu)) +
        subtitle = "Bins adjusted",
        x = "Years of education",
        y = "People",
-       center =TRUE) 
+       center =TRUE) +
+  theme("minimal")
 ```
 
 ```{r}
@@ -68,7 +69,7 @@ med_edu |>
              linetype = "dotted", color = "red", linewidth = 1) +
   scale_y_continuous(limits=c(0,1)) +
   labs(title = "Death rates of people stratisfied by education bracket",
-       subtitle = "Dotted line is global death rate in the dataset",
+       caption = "Dotted line is global death rate in the dataset",
        x = "Years in education",
        y = "Death rate")
 
@@ -76,29 +77,39 @@ med_edu |>
 
 ```{r}
 edu_death_model <- lm(death ~ edu, data = med_edu)
-edu_death_model |> summary()
-```
-
-```{r}
-
 med_edu_low_model <- lm(death ~ low, data = med_edu)
-med_edu_low_model |> summary()
-```
-
-```{r}
-
-
 med_edu_medium_model <- lm(death ~ medium, data = med_edu)
-med_edu_medium_model |> summary()
+med_edu_high_model <- lm(death ~ high, data = med_edu)
+```
+
+## What kind of models are these?
+
+To show what is happening behind the scenes in our models we can plot out a single model as an example.
+
+```{r}
+model_exampel <- ggplot(data = med_edu,
+                        mapping = aes(x=low,
+                                      y=death))+
+  geom_point(size=0.5,
+             color='midnightblue',
+             position=position_jitter(0.03,0.03))+
+  geom_smooth(formula=y~x,
+              method = "lm")+
+  labs(x="Part of low education bracket [0=no,1=yes]",
+       y="Death [0=no, 1=yes]",
+       title ="Example model",
+       subtitle= "Linear model predicting increased moratlity using only membership of [0-9] y. education bracket")
+model_exampel
 ```
 
 ```{r}
-
-med_edu_high_model <- lm(death ~ high, data = med_edu)
-med_edu_high_model |> summary()
+ggsave(filename=here("results/plots/lm_example.png"),
+       plot=model_exampel,
+       height = 5,
+       width=8)
 ```
 
-We nest the model into dataframe ready for comparison
+We nest the linear models into a dataframe ready for comparison
 
 ```{r}
 df_med_edu_models <- tibble(group = c("edu_low", "edu_medium", "edu_high"),
@@ -108,3 +119,5 @@ df_med_edu_models <- tibble(group = c("edu_low", "edu_medium", "edu_high"),
 
 df_med_edu_models |> write_rds(here("data/models/edu.RDS"))
 ```
+
+## 
