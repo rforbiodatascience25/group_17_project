@@ -75,18 +75,22 @@ QQ plot to compare the residuals to the normal distribution. The points fall int
 ```{r}
 age_log_model <- glm(death ~ age, data = df, family = binomial)
 
-log_aug <- df %>%
-  mutate(pred_prob = predict(age_log_model, type = "response"))
+# Create new data for smooth prediction
+new_age <- data.frame(age = seq(min(df$age), max(df$age), length.out = 200))
 
-ggplot(log_aug, aes(x = age, y = pred_prob)) +
-  geom_point(alpha = 0.4) +
-  geom_line(color = "blue", size = 1) +
+# we can predict the probabilities
+new_age$pred_prob <- predict(age_log_model, newdata = new_age, type = "response")
+
+#plot of regression line
+ggplot(new_age, aes(x = age, y = pred_prob)) +
+  geom_line(color = "blue", size = 1.2) +
+  ylim(0, 1) +
   labs(
-    title = "Predicted Probability of Death",
+    title = "Predicted Probability of Death vs Age",
     x = "Age",
-    y = "Predicted Probability"
-  )
-
+    y = "Predicted Probability of Death"
+  ) +
+  theme_minimal(base_size = 16)
 ```
 
 # the above logistic models predicts death as function of age
