@@ -7,15 +7,16 @@ format: html
 library(here)
 library(tidyverse)
 library(quarto)
+source(here("R/99_functions.R"))
 
 ```
 
-## Loading and preprocessing
+## Rendering all quarto documents in the correct order.
 
 ```{r}
 library(here)
 library(quarto)
-source(here("R/99_functions.R"))
 
-render_to_results("01_Preprosessing")
+
+
 ```
