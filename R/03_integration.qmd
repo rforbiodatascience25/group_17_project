@@ -104,7 +104,7 @@ p1 <- ggplot(p_accept, aes(x = group, y = slope_est, color = Significant)) +
   name = "") +  labs(title = "Model slope value estimates") +
   xlab("Feature") + 
   ylab("slope estimate") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+  theme(axis.text.x = element_text(angle = 35, hjust = 1),
         legend.position = "bottom") 
 
 
@@ -117,7 +117,7 @@ p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
   labs(title = "Model slope p-values") +
   xlab("Feature") + 
   ylab("P-values") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+  theme(axis.text.x = element_text(angle = 35, hjust = 1),
         legend.position = "bottom")
 
 p2 + p1
@@ -126,6 +126,6 @@ p2 + p1
 ```{r}
 ggsave(filename = "../results/plots/comparison.png",
   plot = p2 / p1,
-  height = 10, width = 12)
+  height = 8, width = 10)
 
 ```
