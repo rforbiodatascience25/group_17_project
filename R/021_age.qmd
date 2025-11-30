@@ -1,5 +1,5 @@
 ---
-title: "Sex analysis"
+title: "Age analysis"
 format: html
 ---
 
@@ -94,5 +94,8 @@ ggplot(new_age, aes(x = age, y = pred_prob)) +
 ```
 
 # the above logistic models predicts death as function of age
-
 # in this analysis the probabilty of age is restricted to the interval \[0,1\] which is more appropiate \# for a binary outcome.
+
+
+
+
