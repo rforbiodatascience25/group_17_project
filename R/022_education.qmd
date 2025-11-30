@@ -61,7 +61,6 @@ med_edu |>
   stat_summary(fun = mean, geom = "line", group = 1, color = "black") +
   geom_hline(yintercept = mean(med_edu$death, na.rm = TRUE), 
              linetype = "dotted", color = "red", linewidth = 1)
-
 ```
 
 ```{r}

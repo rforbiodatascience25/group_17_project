@@ -10,9 +10,8 @@ format: html
 library(here)
 library(tidyverse)
 library(ggplot2)
-library(purrr)
-library(broom)
-library(stringr)
+library(glue)
+
 ```
 
 ```{r}
@@ -68,7 +67,11 @@ ggplot(df_race_stat,
        mapping = aes(x=race,y=death_rate_any))+
   geom_col(fill='midnightblue',alpha=0.7)+
   geom_errorbar(aes(ymin=CI_dra_lower, ymax=CI_dra_upper))+
-  labs(title = "Death rates of pateints of different races in the study with 2 std errorbars", y = 'Death rate', x='Race')
+  labs(title = "Death rates of pateints of different races in the study with 2 std errorbars",
+       y = 'Death rate',
+       x='Race',
+       subtitle = "Sample size in '()'") +
+  scale_x_discrete(labels = function(x) glue("{x} ({df_race_stat1$count})"))
 ```
 
 No race has a significantly different survival rate in the study.
