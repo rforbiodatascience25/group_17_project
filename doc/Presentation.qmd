@@ -32,29 +32,29 @@ format: revealjs
 -   write clean data to rds
 
 ## Artifacts of different variables
+
 ### Correlations with expected risk factors.
-::: {.columns}
+
+::::: columns
 ::: {.column width="50%"}
-![](../results/plots/Sex_age_distribution.png){width=100%}
+![](../results/plots/Sex_age_distribution.png){width="100%"}
 :::
 
 ::: {.column width="50%"}
-![](../results/plots/Death_rate_sex.png){width=100%}
+![](../results/plots/Death_rate_sex.png){width="100%"}
 :::
+:::::
 
-:::
-
-::: {.columns}
-
+:::: columns
 ::: {.column width="100%"}
-![](../results/Sex_age_p-value.png){width=40%}
+![](../results/Sex_age_p-value.png){width="40%"}
 :::
-
-:::
+::::
 
 ## Artifacts of different variables
 
 ### Skewed distributions
+
 ::::: columns
 ::: {.column width="50%"}
 ![](../results/plots/race_distribution.png){width="100%"}
@@ -68,6 +68,11 @@ format: revealjs
 ## Artifacts of different variables
 
 ### Missing data
+
+::: {.column width="50%"}
+![](../results/plots/wealth_distribution.png){width="100%"}
+:::
+:::::
 
 ## Results & Discussion
 
