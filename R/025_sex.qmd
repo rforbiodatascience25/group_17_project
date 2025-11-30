@@ -83,6 +83,8 @@ ggplot(df, aes(x = age, fill = sex)) +
     y = "Count"
   )
 ```
+
+
 ```{r}
 #models without age 
 female_no_age <- lm(death ~ female_binary, data = df)
@@ -115,16 +117,4 @@ pvals <- tibble(
 pvals
 ```
 
-```{r}
-ggplot(pvals, aes(x = sex, y = p_value, color = model)) +
-  geom_point(size = 4) +
-  geom_line(aes(group = sex)) +
-  labs(
-    title = "P-values for Sex with and without age in Linear Models",
-    x = "Sex",
-    y = "P-value",
-    color = "Model"
-  ) +
-  theme_minimal()
 
-```
