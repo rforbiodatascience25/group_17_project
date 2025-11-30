@@ -26,12 +26,19 @@ med_edu
 Getting an overview of the amount of years of education shows that 8-15 years is the most common and will heavily scew the coming analysis.
 
 ```{r}
-med_edu |> ggplot(mapping = aes(x = edu)) + 
+education_frequency_plot <- med_edu |> 
+  ggplot(mapping = aes(x = edu)) + 
   geom_bar() + 
   labs(title = "Education frequency",        
        center =TRUE) +
   xlab("Years of education") + ylab("People")
 
+education_frequency_plot
+```
+
+```{r}
+ggsave(filename = here("results/plots/education_frequency.png"),
+       plot=education_frequency_plot)
 ```
 
 We do not have enough datapoints to have a meaningful death rate for all amounts of education, so we chose to split them up in intervals.
@@ -61,7 +68,7 @@ med_edu |> ggplot(mapping = aes(x = edu)) +
 ```
 
 ```{r}
-med_edu |>
+death_rate_plot <- med_edu |>
   filter(!is.na(edu)) |>
   ggplot(aes(x = edu, y = death)) +
   stat_summary(fun = mean, geom = "point") +
@@ -74,6 +81,12 @@ med_edu |>
        x = "Years in education",
        y = "Death rate")
 
+death_rate_plot
+```
+
+```{r}
+ggsave(filename = here("results/plots/education_death_rate.png"),
+       plot=death_rate_plot)
 ```
 
 ```{r}
@@ -120,5 +133,3 @@ df_med_edu_models <- tibble(group = c("edu_low", "edu_medium", "edu_high"),
 
 df_med_edu_models |> write_rds(here("data/models/edu.RDS"))
 ```
-
-## 
