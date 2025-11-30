@@ -8,17 +8,19 @@ author:
 format: revealjs
 ---
 
-## Introduction of data 
-- Support.tsv
-- Subset of larger medical dataset
+## Introduction of data
+
+-   Support.tsv
+-   Subset of larger medical dataset
 
 ## Our Workflow
-![](../results/Dataflow.png){width=80%}
+
+![](../results/Dataflow.png){width="80%"}
 
 ## Data processing the Raw data
+
 ```{r}
 library(readr)
-
-raw <- read_tsv("../data/raw/support.tsv")
+raw <- readr::read_tsv("../data/raw/support.tsv")
 head(raw)
-
+```
