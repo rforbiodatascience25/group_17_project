@@ -360,32 +360,65 @@ Casper Tietgen (S235404)
 <ul>
 <li>Support.tsv</li>
 <li>Subset of larger medical dataset</li>
+<li>Goal of analysis</li>
 </ul>
 </section>
-<section id="our-workflow" class="slide level2">
-<h2>Our Workflow</h2>
+<section id="method" class="slide level2">
+<h2>Method</h2>
+<ul>
+<li>Correlation between Deathrate and selected variables</li>
+<li>linear and logistic models</li>
+<li>P-value with cutoff of 0.05</li>
+</ul>
+</section>
+<section id="our-workflow-and-branching" class="slide level2">
+<h2>Our Workflow and Branching</h2>
 
 <img data-src="../results/Dataflow.png" style="width:80.0%" class="r-stretch"></section>
-<section id="data-processing-the-raw-data" class="slide level2">
-<h2>Data processing the Raw data</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 35
-    age death sex    hospdead  slos d.time dzgroup   dzclass num.co   edu income
-  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
-1  85.7     1 male          0    12     63 Lung Can… Cancer       2    12 &lt;NA&gt;  
-2  42.3     1 female        0     8    370 Colon Ca… Cancer       0    11 $25-$…
-3  43.5     0 female        0   115   2022 ARF/MOSF… ARF/MO…      1    NA &lt;NA&gt;  
-4  45.4     1 male          0     7    827 Lung Can… Cancer       2    NA &lt;NA&gt;  
-5  63.7     1 female        1    14     14 ARF/MOSF… ARF/MO…      0    22 $25-$…
-6  41.5     1 male          1    21     21 MOSF w/M… ARF/MO…      2    18 &gt;$50k 
-# ℹ 24 more variables: scoma &lt;dbl&gt;, charges &lt;dbl&gt;, totcst &lt;dbl&gt;, totmcst &lt;dbl&gt;,
-#   avtisst &lt;dbl&gt;, race &lt;chr&gt;, meanbp &lt;dbl&gt;, wblc &lt;dbl&gt;, hrt &lt;dbl&gt;, resp &lt;dbl&gt;,
-#   temp &lt;dbl&gt;, pafi &lt;dbl&gt;, alb &lt;dbl&gt;, bili &lt;dbl&gt;, crea &lt;dbl&gt;, sod &lt;dbl&gt;,
-#   ph &lt;dbl&gt;, glucose &lt;dbl&gt;, bun &lt;dbl&gt;, urine &lt;dbl&gt;, adlp &lt;dbl&gt;, adls &lt;dbl&gt;,
-#   sfdm2 &lt;chr&gt;, adlsc &lt;dbl&gt;</code></pre>
-</div>
-</div>
+<section id="data-processing" class="slide level2">
+<h2>Data processing</h2>
+<ul>
+<li>loading</li>
+<li>artificial untyding</li>
+<li>tidying</li>
+<li>write clean data to rds</li>
+</ul>
+</section>
+<section id="artifacts-of-different-variables" class="slide level2">
+<h2>Artifacts of different variables</h2>
+<h3 id="correlations-with-expected-risk-factors.">Correlations with expected risk factors.</h3>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><img data-src="../results/plots/Sex_age_distribution.png" style="width:100.0%"></p>
+</div><div class="column" style="width:45%;">
+<p><img data-src="../results/Sex_age_p-value.png" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="artifacts-of-different-variables-1" class="slide level2">
+<h2>Artifacts of different variables</h2>
+<h3 id="skewed-distributions">Skewed distributions</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="../results/plots/race_distribution.png" style="width:100.0%"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="../results/plots/race_death_distribution.png" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="artifacts-of-different-variables-2" class="slide level2">
+<h2>Artifacts of different variables</h2>
+<h3 id="missing-data">Missing data</h3>
+</section>
+<section id="results-discussion" class="slide level2">
+<h2>Results &amp; Discussion</h2>
+<h3 id="graph_1">graph_1</h3>
+</section>
+<section id="results-discussion-1" class="slide level2">
+<h2>Results &amp; Discussion</h2>
+<h3 id="graph_2">graph_2</h3>
+</section>
+<section id="results-discussion-2" class="slide level2">
+<h2>Results &amp; Discussion</h2>
+<h3 id="graph_3">graph_3</h3>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
@@ -602,44 +635,6 @@ Casper Tietgen (S235404)
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

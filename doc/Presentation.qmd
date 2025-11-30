@@ -9,48 +9,67 @@ format: revealjs
 ---
 
 ## Introduction of data
-- Support.tsv
-- Subset of larger medical dataset
-- Goal of analysis
+
+-   Support.tsv
+-   Subset of larger medical dataset
+-   Goal of analysis
 
 ## Method
-- Correlation between Deathrate and selected variables
-- linear and logistic models
-- P-value with cutoff of 0.05
 
-## Our Workflow and Branching 
+-   Correlation between Deathrate and selected variables
+-   linear and logistic models
+-   P-value with cutoff of 0.05
+
+## Our Workflow and Branching
+
 ![](../results/Dataflow.png){width="80%"}
 
 ## Data processing
-- loading
-- artificial untyding
-- tidying
-- write clean data to rds
+
+-   loading
+-   artificial untyding
+-   tidying
+-   write clean data to rds
 
 ## Artifacts of different variables
+
 ### Correlations with expected risk factors.
 
-::: {.columns}
+::::: columns
 ::: {.column width="55%"}
-![](../results/plots/Sex_age_distribution.png){width=100%}
+![](../results/plots/Sex_age_distribution.png){width="100%"}
 :::
 
 ::: {.column width="45%"}
-![](../results/Sex_age_p-value.png){width=100%}
+![](../results/Sex_age_p-value.png){width="100%"}
 :::
-:::
+:::::
 
 ## Artifacts of different variables
+
 ### Skewed distributions
+::::: columns
+::: {.column width="50%"}
+![](../results/plots/race_distribution.png){width="100%"}
+:::
+
+::: {.column width="50%"}
+![](../results/plots/race_death_distribution.png){width="100%"}
+:::
+:::::
 
 ## Artifacts of different variables
+
 ### Missing data
 
+## Results & Discussion
 
-## Results & Discussion 
 ### graph_1
-## Results & Discussion 
-### graph_2
-## Results & Discussion 
-### graph_3
 
+## Results & Discussion
+
+### graph_2
+
+## Results & Discussion
+
+### graph_3
