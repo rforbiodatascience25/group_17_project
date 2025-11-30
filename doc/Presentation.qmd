@@ -13,13 +13,21 @@ format: revealjs
 -   Subset of larger medical dataset
 
 ## Our Workflow
-
 ![](../results/Dataflow.png){width="80%"}
 
-## Data processing the Raw data
+## Data processing
+- loading
+- artificial untyding
+- tidying
+- write clean data to rds
 
+## Branching
+- 
 ## Modelling
-
+- linear model
+- custom analysis for each variable
 ## Results
-
+- graphs
+- table of 
 ## Discussion 
+
