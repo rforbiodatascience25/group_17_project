@@ -72,6 +72,11 @@ format: revealjs
 ::: {.column width="50%"}
 ![](../results/plots/wealth_distribution.png){width="100%"}
 :::
+
+::: {.column width="50%"}
+![](../results/plots/education_frequency.png){width="100%"}
+:::
+
 :::::
 
 ## Results & Discussion
