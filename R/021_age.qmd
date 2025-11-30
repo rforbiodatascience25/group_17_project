@@ -13,7 +13,6 @@ library(broom)
 
 ```{r}
 df <- read.csv(here("data", "med_data_tidy.csv"))
-df
 ```
 
 ```{r}
@@ -32,45 +31,66 @@ readRDS(here("data", "models", "age.RDS"))
 
 
 ```
-
+### linear regression plot of Death vs Age
 ```{r}
-
-aug <- augment(age_model)
-
-ggplot(aug, aes(x = age, y = death)) +
+ggplot(df, aes(x = age, y = death)) +
   geom_point(alpha = 0.4) +
-  geom_smooth(method = "lm", se = TRUE, color = "blue",formula='y ~ x') +
-  labs(title = "Death vs Age (Linear Model)",
-       x = "Age",
-       y = "Probability of Death")
+  geom_smooth(method = "lm",
+              se = TRUE,
+              color = "blue",
+              formula = y ~ x) +
+  scale_y_continuous(limits = c(0, 1)) +
+  labs(
+    title = "Death vs Age (Linear Model)",
+    x = "Age",
+    y = "Probability of Death"
+  ) +
+  theme_minimal()
 ```
 
 We can see that the probabilty of death, increases as the patients age.
 
 ```{r}
-ggplot(aug, aes(.fitted, .resid)) +
-  geom_point(alpha = 0.4) +
-  geom_hline(yintercept = 0, color = "red") +
-  labs(title = "Residuals vs Fitted Values")
+age_diag <- df |>
+  mutate(
+    fitted    = fitted(age_model),    
+    resid     = resid(age_model),       
+    std_resid = rstandard(age_model)    
+  )
 ```
-
-# The residuals show a strong pattern, rather than a random scatter.
-
-# the model forms two diagonal bands which indicates that the model is systematically either over or \# under predicting for the different age groups.
-
-# this indicates that a linear model is not suitable for binary outcome.
 
 ```{r}
-ggplot(aug, aes(sample = .resid)) +
+ggplot(age_diag, aes(x = fitted, y = resid)) +
+  geom_point(alpha = 0.4) +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(
+    title = "Residuals vs Fitted Values",
+    x = "Fitted values",
+    y = "Residuals"
+  ) +
+  theme_minimal()
+```
+The residuals show a strong pattern, rather than a random scatter.
+
+the model forms two diagonal bands which indicates that the model is systematically either over or under predicting for the different age groups.
+
+this indicates that a linear model is not suitable for binary outcome.
+
+
+```{r}
+ggplot(age_diag, aes(sample = std_resid)) +
   stat_qq() +
   stat_qq_line() +
-  labs(title = "QQ Plot of Model Residuals")
-
+  labs(
+    title = "QQ Plot of Standardized Residuals",
+    x = "Theoretical Quantiles",
+    y = "Standardized Residuals"
+  ) +
+  theme_minimal()
 ```
-
 QQ plot to compare the residuals to the normal distribution. The points fall into to almost horizontal lines, instead of following the diagnoal line. This confirms that the residuals are not at all normally distributed (which is not very suprising since they are binary), and this violates the normality assumption of the linear model.
 
-# test of logistic regression to compare.
+# test of logistic regression to compare
 
 ```{r}
 age_log_model <- glm(death ~ age, data = df, family = binomial)
@@ -93,8 +113,10 @@ ggplot(new_age, aes(x = age, y = pred_prob)) +
   theme_minimal(base_size = 16)
 ```
 
-# the above logistic models predicts death as function of age
-# in this analysis the probabilty of age is restricted to the interval \[0,1\] which is more appropiate \# for a binary outcome.
+the above logistic models predicts death as function of age
+in this analysis the probabilty of age is restricted to the interval [0,1] which is more appropiate for a binary outcome.
+
+even though this model is a better fit for the data, we will use the linear model to adjust for age covariance in other analyses because it allows us to keep a consistent model structure across all variables and simplifies comparison between groups.
 
 
 
