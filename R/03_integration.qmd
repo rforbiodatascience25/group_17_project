@@ -88,7 +88,7 @@ p1 + p2
 
 ### Sorted after p-value significant
 
-```{r}
+```{r, fig.width=12, fig.height=5}
 p_accept <- all_models |>
   mutate(Significant = slope_p < 0.05) |>
   arrange(desc(Significant), slope_p, slope_est) |>
@@ -124,7 +124,7 @@ p1 + p2
 ```
 
 ```{r}
-ggsave(filename = "../results/comparison.png",
+ggsave(filename = "../results/plots/comparison.png",
   plot = p1 / p2,
   height = 10, width = 12)
 
