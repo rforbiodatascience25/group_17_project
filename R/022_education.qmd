@@ -28,7 +28,7 @@ Getting an overview of the amount of years of education shows that 8-15 years is
 med_edu |> ggplot(mapping = aes(x = edu)) + 
   geom_bar() + 
   labs(title = "Education frequency",        
-    center =TRUE) +
+       center =TRUE) +
   xlab("Years of education") + ylab("People")
 
 ```
@@ -37,20 +37,25 @@ We do not have enough datapoints to have a meaningful death rate for all amounts
 
 ```{r}
 med_edu <- med_edu |> 
-  mutate(edu = case_when(0 <= edu & edu < 9 ~ "(0-9]",
+  mutate(edu = case_when(0 <= edu & edu < 9 ~ "[0-9]",
                          9 <= edu & edu < 18 ~ "(9-18]",
-                         18 <= edu & edu < 30 ~ "(18-30]"), 
-         edu = factor(edu, levels = c("(0-9]","(9-18]", "(18-30]"))) |> 
-  mutate("low" = case_when(edu == "(0-9]" ~ 1,
+                         18 <= edu ~ "(18-30]"), 
+         edu = factor(edu, levels = c("[0-9]","(9-18]", "(18-30]"))) |> 
+  mutate("low" = case_when(edu == "[0-9]" ~ 1,
                            .default = 0)) |>
   mutate("medium" = case_when(edu == "(9-18]" ~ 1,
                            .default = 0)) |>
   mutate("high" = case_when(edu == "(18-30]" ~ 1,
                            .default = 0))
 
-med_edu |> write_rds(here("data/df_educat.RDS"))
-
-med_edu 
+# we plot the new definitions
+med_edu |> ggplot(mapping = aes(x = edu)) + 
+  geom_bar() + 
+  labs(title = "Education frequency", 
+       subtitle = "Bins adjusted",
+       x = "Years of education",
+       y = "People",
+       center =TRUE) 
 ```
 
 ```{r}
@@ -60,7 +65,13 @@ med_edu |>
   stat_summary(fun = mean, geom = "point") +
   stat_summary(fun = mean, geom = "line", group = 1, color = "black") +
   geom_hline(yintercept = mean(med_edu$death, na.rm = TRUE), 
-             linetype = "dotted", color = "red", linewidth = 1)
+             linetype = "dotted", color = "red", linewidth = 1) +
+  scale_y_continuous(limits=c(0,1)) +
+  labs(title = "Death rates of people stratisfied by education bracket",
+       subtitle = "Dotted line is global death rate in the dataset",
+       x = "Years in education",
+       y = "Death rate")
+
 ```
 
 ```{r}
