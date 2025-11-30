@@ -14,10 +14,11 @@ library(readr)
 
 ### Medicine Equality in Education
 
-first we load the cleaned data and filter out all patients that haven't registered education.
+First we load the cleaned data and filter out all patients that haven't registered education.
 
 ```{r}
 #| message: false
+med_edu_na <- read_csv(here("data/med_data_tidy.csv")) |> filter(!is.na(edu))
 med_edu <- read_csv(here("data/med_data_tidy.csv")) |> filter(!is.na(edu))
 med_edu 
 ```
@@ -65,7 +66,7 @@ med_edu |>
   ggplot(aes(x = edu, y = death)) +
   stat_summary(fun = mean, geom = "point") +
   stat_summary(fun = mean, geom = "line", group = 1, color = "black") +
-  geom_hline(yintercept = mean(med_edu$death, na.rm = TRUE), 
+  geom_hline(yintercept = mean(med_edu_na$death, na.rm = TRUE), 
              linetype = "dotted", color = "red", linewidth = 1) +
   scale_y_continuous(limits=c(0,1)) +
   labs(title = "Death rates of people stratisfied by education bracket",
