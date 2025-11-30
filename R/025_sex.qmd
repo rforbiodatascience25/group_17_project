@@ -48,3 +48,84 @@ readRDS(here("data", "models", "sex.RDS"))
 ```
 
 
+## visualizations
+# proportion of death for both sex
+```{r}
+df_sex_death <- df |>
+  group_by(sex) |>
+  summarise(
+    death_rate = mean(death, na.rm = TRUE)
+  )
+
+ggplot(df_sex_death, aes(x = sex, y = death_rate)) +
+  geom_col(fill = "red",alpha=0.7) +
+  labs(
+    title = "Death Rate by Sex",
+    x = "Sex",
+    y = "Proportion Dead"
+  )
+```
+```{r}
+ggplot(df, aes(x = sex, fill = factor(death))) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Alive vs Dead by Sex",
+    x = "Sex",
+    fill = "Death (1 = Dead)"
+  )
+```
+```{r}
+ggplot(df, aes(x = age, fill = sex)) +
+  geom_histogram(alpha = 0.6, position = "identity", bins = 30) +
+  labs(
+    title = "Age Distribution by Sex",
+    x = "Age",
+    y = "Count"
+  )
+```
+```{r}
+#models without age 
+female_no_age <- lm(death ~ female_binary, data = df)
+male_no_age   <- lm(death ~ male_binary, data = df)
+
+# Models WITH age
+female_with_age <- lm(death ~ female_binary + age, data = df)
+male_with_age   <- lm(death ~ male_binary + age, data = df)
+
+```
+
+
+```{r}
+extract_p <- function(model, variable){
+  summary(model)$coefficients[variable, "Pr(>|t|)"]
+}
+```
+
+```{r}
+pvals <- tibble(
+  sex = c("female", "female", "male", "male"),
+  model = c("No age", "With age", "No age", "With age"),
+  p_value = c(
+    extract_p(female_no_age, "female_binary"),
+    extract_p(female_with_age, "female_binary"),
+    extract_p(male_no_age, "male_binary"),
+    extract_p(male_with_age, "male_binary")
+  )
+)
+pvals
+```
+
+```{r}
+ggplot(pvals, aes(x = sex, y = p_value, color = model)) +
+  geom_point(size = 4) +
+  geom_line(aes(group = sex)) +
+  labs(
+    title = "P-values for Sex with and without age in Linear Models",
+    x = "Sex",
+    y = "P-value",
+    color = "Model"
+  ) +
+  theme_minimal()
+
+```
+
