@@ -32,18 +32,25 @@ format: revealjs
 -   write clean data to rds
 
 ## Artifacts of different variables
-
 ### Correlations with expected risk factors.
-
-::::: columns
-::: {.column width="55%"}
-![](../results/plots/Sex_age_distribution.png){width="100%"}
+::: {.columns}
+::: {.column width="50%"}
+![](../results/plots/Sex_age_distribution.png){width=100%}
 :::
 
-::: {.column width="45%"}
-![](../results/Sex_age_p-value.png){width="100%"}
+::: {.column width="50%"}
+![](../results/plots/Death_rate_sex.png){width=100%}
 :::
-:::::
+
+:::
+
+::: {.columns}
+
+::: {.column width="100%"}
+![](../results/Sex_age_p-value.png){width=40%}
+:::
+
+:::
 
 ## Artifacts of different variables
 
