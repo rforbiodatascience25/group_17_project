@@ -17,6 +17,12 @@ source(here("R/99_functions.R"))
 library(here)
 library(quarto)
 
-
-
+render_to_results("01_Preprosessing")
+render_to_results("021_age")
+render_to_results("022_education")
+render_to_results("023_income")
+render_to_results("024_race")
+render_to_results("025_sex")
+render_to_results("026_diagnosis")
+render_to_results("03_integration")
 ```

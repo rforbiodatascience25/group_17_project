@@ -9,10 +9,16 @@ format: revealjs
 ---
 
 ## Introduction of data
--   Support.tsv
--   Subset of larger medical dataset
+- Support.tsv
+- Subset of larger medical dataset
+- Goal of analysis
 
-## Our Workflow
+## Method
+- Correlation between Deathrate and selected variables
+- linear and logistic models
+- P-value with cutoff of 0.05
+
+## Our Workflow and Branching 
 ![](../results/Dataflow.png){width="80%"}
 
 ## Data processing
@@ -21,13 +27,30 @@ format: revealjs
 - tidying
 - write clean data to rds
 
-## Branching
-- 
-## Modelling
-- linear model
-- custom analysis for each variable
-## Results
-- graphs
-- table of 
-## Discussion 
+## Artifacts of different variables
+### Correlations with expected risk factors.
+
+::: {.columns}
+::: {.column width="55%"}
+![](../results/plots/Sex_age_distribution.png){width=100%}
+:::
+
+::: {.column width="45%"}
+![](../results/Sex_age_p-value.png){width=100%}
+:::
+:::
+
+## Artifacts of different variables
+### Skewed distributions
+
+## Artifacts of different variables
+### Missing data
+
+
+## Results & Discussion 
+### graph_1
+## Results & Discussion 
+### graph_2
+## Results & Discussion 
+### graph_3
 

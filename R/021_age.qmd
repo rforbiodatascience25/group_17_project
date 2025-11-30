@@ -8,6 +8,7 @@ library(dplyr)
 library(ggplot2)
 library(tibble)
 library(here)
+library(broom)
 ```
 
 ```{r}
@@ -38,7 +39,7 @@ aug <- augment(age_model)
 
 ggplot(aug, aes(x = age, y = death)) +
   geom_point(alpha = 0.4) +
-  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue",formula='y ~ x') +
   labs(title = "Death vs Age (Linear Model)",
        x = "Age",
        y = "Probability of Death")
