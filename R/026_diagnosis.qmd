@@ -18,7 +18,7 @@ library(here)
 
 ```{r}
 #| message: false
-meta_data <- read_csv("data/med_data_tidy.csv")
+meta_data <- read_csv(here("data/med_data_tidy.csv"))
 ```
 
 ## Preparing the metadata for analysis
