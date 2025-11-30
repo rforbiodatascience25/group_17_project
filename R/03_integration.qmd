@@ -19,10 +19,11 @@ race <- read_rds(here("data/models/race.RDS"))
 sex <- read_rds(here("data/models/sex.RDS"))
 edu <- read_rds(here("data/models/edu.RDS"))
 age <- read_rds(here("data/models/age.RDS"))
+diagnosis <- read_rds(here("data/models/diagnosis.RDS"))
 ```
 
 ```{r}
-all_models <- bind_rows(income,race,sex,age,edu)
+all_models <- bind_rows(income,race,sex,age,edu, diagnosis)
 all_models
 ```
 
@@ -49,8 +50,8 @@ all_models |> write_rds(here("data/compared_models.RDS"))
 ```
 
 ```{r}
-p_accept <- all_models |> mutate(Significant = slope_p < 0.05)
-
+p_accept <- all_models |> mutate(Significant = slope_p < 0.05) |>
+  arrange(R_squared, slope_p)
 
 p1 <- ggplot(p_accept, aes(x = group, y = R_squared, color = Significant)) +
   
@@ -63,7 +64,7 @@ p1 <- ggplot(p_accept, aes(x = group, y = R_squared, color = Significant)) +
     
   xlab("Model") + ylab("R-squared") +
   
-  theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.position   = "bottom")
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position   = "bottom")
 
 
 
@@ -78,11 +79,51 @@ p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
     
   xlab("Model") + ylab("P-values") +
   
-  theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.position   = "bottom")
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position   = "bottom")
 
 
 
 p1 + p2
 ```
 
+### Sorted after p-value significant
 
+```{r}
+p_accept <- all_models |>
+  mutate(Significant = slope_p < 0.05) |>
+  arrange(desc(Significant), slope_p, R_squared) |>
+  mutate(group = factor(group, levels = group))
+
+p1 <- ggplot(p_accept, aes(x = group, y = R_squared, color = Significant)) +
+  geom_point() +
+  scale_color_manual(
+  values = c("FALSE" = "black", "TRUE" = "red"),
+  labels = c("FALSE" = "Not significant", "TRUE" = "Is significant"),
+  name = "") +  labs(title = "Model R-squared values") +
+  xlab("Feature") + 
+  ylab("R-squared") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "bottom")
+
+
+p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
+  geom_point() +
+  scale_color_manual(
+  values = c("FALSE" = "black", "TRUE" = "red"),
+  labels = c("FALSE" = "Not significant", "TRUE" = "Is significant"),
+  name = "") +
+  labs(title = "Model slope p-values") +
+  xlab("Feature") + 
+  ylab("P-values") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "bottom")
+
+p1 + p2
+```
+
+```{r}
+ggsave(filename = "../results/comparison.png",
+  plot = p1 / p2,
+  height = 10, width = 12)
+
+```
