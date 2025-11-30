@@ -74,7 +74,7 @@ race_plot2 <- ggplot(df_race_stat,
        y = 'Death rate',
        x='Race (sample size)',
        subtitle = "Errorbars show 2 standard deviations") +
-  scale_x_discrete(labels = function(x) glue("{x} ({df_race_stat1$count})"))
+  scale_x_discrete(labels = function(x) glue("{x} ({df_race_stat$count})"))
 
 race_plot2 |> ggsave(file=here("results/plots/race_death_distribution.png"),
                      plot=_,
