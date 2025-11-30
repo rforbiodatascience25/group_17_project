@@ -1,5 +1,6 @@
 library(tidyverse)
 library(broom)
+library(glue)
 
 get_model_stats <- function(model){
   summ <- model |>
@@ -17,3 +18,18 @@ get_model_stats <- function(model){
   return(out_tible)
 }
 
+#render a qmd file to a folder. Only write the name of the file inside the R folder. and no suffix
+render_to_results <- function(file_name){
+  ren_path <- here(glue("R/{file_name}.qmd"))
+  dump_path <- here(glue("R/{file_name}.html"))
+  results_path <- here(glue("results/{file_name}.html"))
+
+
+  quarto_render(ren_path)
+
+  file.rename(
+    from = dump_path,
+    to = results_path)
+
+  unlink(here(glue("R/{file_name}_files")),recursive = TRUE)
+}

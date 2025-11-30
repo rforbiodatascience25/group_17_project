@@ -3,3 +3,19 @@ title: "00_Master"
 format: html
 ---
 
+```{r}
+library(here)
+library(tidyverse)
+library(quarto)
+
+```
+
+## Loading and preprocessing
+
+```{r}
+library(here)
+library(quarto)
+source(here("R/99_functions.R"))
+
+render_to_results("01_Preprosessing")
+```
