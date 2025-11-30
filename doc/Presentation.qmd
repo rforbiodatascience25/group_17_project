@@ -9,7 +9,6 @@ format: revealjs
 ---
 
 ## Introduction of data
-
 -   Support.tsv
 -   Subset of larger medical dataset
 
@@ -19,8 +18,8 @@ format: revealjs
 
 ## Data processing the Raw data
 
-```{r}
-library(readr)
-raw <- readr::read_tsv("../data/raw/support.tsv")
-head(raw)
-```
+## Modelling
+
+## Results
+
+## Discussion 
