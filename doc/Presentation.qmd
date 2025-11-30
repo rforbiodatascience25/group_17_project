@@ -79,13 +79,13 @@ format: revealjs
 
 :::::
 
-## Results & Discussion
+## Linear models
 
-### graph_1
+### Example graph, under the hood
+![](../results/plots/lm_example.png){width="100%"}
 
-## Results & Discussion
+## Comparison of models
 
-### graph_2
 
 ## Results & Discussion
 
