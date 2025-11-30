@@ -88,7 +88,7 @@ p1 + p2
 
 ### Sorted after p-value significant
 
-```{r, fig.width=12, fig.height=5}
+```{r, fig.width=10, fig.height=5}
 p_accept <- all_models |>
   mutate(Significant = slope_p < 0.05) |>
   arrange(desc(Significant), slope_p, slope_est) |>
@@ -105,7 +105,7 @@ p1 <- ggplot(p_accept, aes(x = group, y = slope_est, color = Significant)) +
   xlab("Feature") + 
   ylab("slope estimate") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "bottom")
+        legend.position = "bottom") 
 
 
 p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
@@ -120,12 +120,12 @@ p2 <- ggplot(p_accept, aes(x = group, y = slope_p, color = Significant)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "bottom")
 
-p1 + p2
+p2 + p1
 ```
 
 ```{r}
 ggsave(filename = "../results/plots/comparison.png",
-  plot = p1 / p2,
+  plot = p2 / p1,
   height = 10, width = 12)
 
 ```
