@@ -74,23 +74,39 @@ ggplot(df_sex_death, aes(x = sex, y = death_rate)) +
 ```
 
 ```{r}
-ggplot(df, aes(x = sex, fill = factor(death))) +
+deathrate_sex <- ggplot(df, aes(x = sex, fill = factor(death))) +
   geom_bar(position = "dodge") +
   labs(
     title = "Alive vs Dead by Sex",
     x = "Sex",
     fill = "Death (1 = Dead)"
   )
+deathrate_sex
 ```
 
 ```{r}
-ggplot(df, aes(x = age, fill = sex)) +
+ggsave(filename=here("results/plots/Death_rate_sex.png"),
+       plot=deathrate_sex,
+       height = 5,
+       width=8)
+```
+
+```{r}
+agesex_comparison <- ggplot(df, aes(x = age, fill = sex)) +
   geom_histogram(alpha = 0.6, position = "identity", bins = 30) +
   labs(
     title = "Age Distribution by Sex",
     x = "Age",
     y = "Count"
   )
+agesex_comparison
+```
+
+```{r}
+ggsave(filename=here("results/plots/Sex_age_distribution.png"),
+       plot=agesex_comparison,
+       height = 5,
+       width=8)
 ```
 
 ```{r}
