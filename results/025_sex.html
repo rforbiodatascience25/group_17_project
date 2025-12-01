@@ -118,7 +118,7 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>here() starts at /net/pupil1/home/people/s235404/Projects/group_17_project</code></pre>
+<pre><code>here() starts at /home/people/s235350/Projects/group_17_project</code></pre>
 </div>
 </div>
 </section>
@@ -2152,8 +2152,8 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </section>
-<section id="create-linear-model-for-both-sex" class="level1">
-<h1>create linear model for both sex</h1>
+<section id="create-linear-model-for-both-sexes" class="level1">
+<h1>create linear model for both sexes</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>female_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> female_binary, <span class="at">data =</span> df)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>male_model <span class="ot">&lt;-</span>   <span class="fu">lm</span>(death <span class="sc">~</span> male_binary, <span class="at">data =</span> df)</span>

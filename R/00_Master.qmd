@@ -4,6 +4,7 @@ format: html
 ---
 
 ```{r}
+#| message: false
 library(here)
 library(tidyverse)
 library(quarto)
@@ -17,6 +18,8 @@ source(here("R/99_functions.R"))
 library(here)
 library(quarto)
 
+render_to_results("data_loading")
+render_to_results("Data_selection")
 render_to_results("01_Preprosessing")
 render_to_results("021_age")
 render_to_results("022_education")

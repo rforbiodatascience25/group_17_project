@@ -11,6 +11,8 @@ library(readr)
 df <- read_tsv(here("data/raw/support.tsv"))
 ```
 
+This is just to artificially dirty the data a bit more before step 0 starts in the real project
+
 ```{r}
 df_untydier <- df |>
   mutate(diagnosis = paste(dzgroup, "," ,dzclass))

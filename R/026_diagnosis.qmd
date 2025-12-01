@@ -80,4 +80,3 @@ We write the models to disc for later use
 df_diag_group_models <- df_diag_stat_models |>
   write_rds(here("data/models/diagnosis.RDS"))
 ```
-
