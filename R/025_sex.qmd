@@ -64,22 +64,12 @@ df_sex_death <- df |>
     death_rate = mean(death, na.rm = TRUE)
   )
 
-ggplot(df_sex_death, aes(x = sex, y = death_rate)) +
+deathrate_sex <- ggplot(df_sex_death, aes(x = sex, y = death_rate)) +
   geom_col(fill = "red",alpha=0.7) +
   labs(
     title = "Death Rate by Sex",
     x = "Sex",
     y = "Proportion Dead"
-  )
-```
-
-```{r}
-deathrate_sex <- ggplot(df, aes(x = sex, fill = factor(death))) +
-  geom_bar(position = "dodge") +
-  labs(
-    title = "Alive vs Dead by Sex",
-    x = "Sex",
-    fill = "Death (1 = Dead)"
   )
 deathrate_sex
 ```
@@ -89,6 +79,17 @@ ggsave(filename=here("results/plots/Death_rate_sex.png"),
        plot=deathrate_sex,
        height = 5,
        width=8)
+```
+
+```{r}
+ggplot(df, aes(x = sex, fill = factor(death))) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Alive vs Dead by Sex",
+    x = "Sex",
+    fill = "Death (1 = Dead)"
+  )
+
 ```
 
 ```{r}
