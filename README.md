@@ -11,5 +11,5 @@ Final project for 22100
 The link to the presentation
 https://raw.githack.com/rforbiodatascience25/group_17_project/main/doc/presentation.html
 
-Link to the data that must be put into data/_raw is 
+Create a folder called data/raw, and put the following data inside using the link provided:
 https://hbiostat.org/data/repo/support.tsv
