@@ -1,5 +1,5 @@
 ---
-title: "Prosessing"
+title: "Education"
 format: html
 ---
 
@@ -67,6 +67,8 @@ med_edu |> ggplot(mapping = aes(x = edu)) +
   theme("minimal")
 ```
 
+We note, that the 9-18 years bracket make up most of the education data points.
+
 ```{r}
 death_rate_plot <- med_edu |>
   filter(!is.na(edu)) |>
@@ -112,7 +114,8 @@ model_exampel <- ggplot(data = med_edu,
   labs(x="Part of low education bracket [0=no,1=yes]",
        y="Death [0=no, 1=yes]",
        title ="Example model",
-       subtitle= "Linear model predicting increased moratlity using only membership of [0-9] y. education bracket")
+       subtitle= "Linear model predicting increased moratlity using only membership of [0-9] y. education bracket",
+       caption = "Datapoints have been jittered, but all fall on either 0 or 1 on both axis")
 model_exampel
 ```
 

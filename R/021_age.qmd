@@ -4,6 +4,7 @@ format: html
 ---
 
 ```{r}
+#| message: false
 library(dplyr)
 library(ggplot2)
 library(tibble)
@@ -22,16 +23,11 @@ age_df <- tibble(
   model = list(age_model)
 )
 
-
-
-saveRDS(age_df, here("data", "models", "age.RDS"))
-
-
-readRDS(here("data", "models", "age.RDS"))
-
-
+saveRDS(age_df, here("data/models/age.RDS"))
 ```
-### linear regression plot of Death vs Age
+
+linear regression plot of Death vs Age
+
 ```{r}
 ggplot(df, aes(x = age, y = death)) +
   geom_point(alpha = 0.4) +
@@ -48,7 +44,7 @@ ggplot(df, aes(x = age, y = death)) +
   theme_minimal()
 ```
 
-We can see that the probabilty of death, increases as the patients age.
+We can see that the probabilty of death, increases as the patients age. Obviously A linear regression is not that appropriate of a model, but we will show how this is the case now.
 
 ```{r}
 age_diag <- df |>
@@ -70,12 +66,12 @@ ggplot(age_diag, aes(x = fitted, y = resid)) +
   ) +
   theme_minimal()
 ```
+
 The residuals show a strong pattern, rather than a random scatter.
 
 the model forms two diagonal bands which indicates that the model is systematically either over or under predicting for the different age groups.
 
 this indicates that a linear model is not suitable for binary outcome.
-
 
 ```{r}
 ggplot(age_diag, aes(sample = std_resid)) +
@@ -88,9 +84,10 @@ ggplot(age_diag, aes(sample = std_resid)) +
   ) +
   theme_minimal()
 ```
+
 QQ plot to compare the residuals to the normal distribution. The points fall into to almost horizontal lines, instead of following the diagnoal line. This confirms that the residuals are not at all normally distributed (which is not very suprising since they are binary), and this violates the normality assumption of the linear model.
 
-# test of logistic regression to compare
+## Test of logistic regression to compare
 
 ```{r}
 age_log_model <- glm(death ~ age, data = df, family = binomial)
@@ -113,11 +110,6 @@ ggplot(new_age, aes(x = age, y = pred_prob)) +
   theme_minimal(base_size = 16)
 ```
 
-the above logistic models predicts death as function of age
-in this analysis the probabilty of age is restricted to the interval [0,1] which is more appropiate for a binary outcome.
+the above logistic models predicts death as function of age in this analysis the probabilty of age is restricted to the interval \[0,1\] which is more appropiate for a binary outcome.
 
 even though this model is a better fit for the data, we will use the linear model to adjust for age covariance in other analyses because it allows us to keep a consistent model structure across all variables and simplifies comparison between groups.
-
-
-
-
