@@ -6,6 +6,8 @@ author:
   - "Rasmus Bertelsen (S235350)"
   - "Casper Tietgen (S235404)"
 format: revealjs
+slide-number: c/t
+show-slide-number: all
 ---
 
 ## Introduction of data
