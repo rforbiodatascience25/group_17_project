@@ -14,7 +14,8 @@ show-slide-number: all
 
 -   Support.tsv
 -   Subset of larger medical dataset
--   Goal of analysis
+-   Clean and restructure 
+-   Demographic variables 
 
 ## Method
 
