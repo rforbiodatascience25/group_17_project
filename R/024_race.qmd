@@ -68,12 +68,13 @@ We also wanna add a row that contain the data for all patents to compare.
 ```{r}
 race_plot2 <- ggplot(df_race_stat,
                      mapping = aes(x=race,y=death_rate))+
-  geom_col(fill='midnightblue',alpha=0.7)+
+  geom_col(fill='midnightblue',
+           alpha=0.7)+
   geom_errorbar(aes(ymin=CI_dra_lower,
                     ymax=CI_dra_upper))+
   labs(title = "Death rates of pateints of different races in the study",
        y = 'Death rate',
-       x='Race (sample size)',
+       x = 'Race (sample size)',
        subtitle = "Errorbars show 2 standard deviations") +
   scale_x_discrete(labels = function(x) glue("{x} ({df_race_stat$count})"))
 
@@ -121,4 +122,3 @@ df_race_models <- df_race_stat |>
 df_race_models |> write_rds(here("data/models/race.RDS"))
 df_race_models
 ```
-
