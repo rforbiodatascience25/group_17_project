@@ -35,3 +35,10 @@ render_to_results("025_sex")
 render_to_results("026_diagnosis")
 render_to_results("03_integration")
 ```
+
+Finally the presentation is rendered
+
+```{r}
+quarto_render(here("doc/presentation.qmd"))
+
+```
