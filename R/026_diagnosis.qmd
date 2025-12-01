@@ -39,6 +39,8 @@ diagnosis_plot <- ggplot(data = df) +
 diagnosis_plot
 ```
 
+We create columns for each diagnosis and model.
+
 ```{r}
 df_diag <- df |>
   mutate(lung_cancer = case_when(diag_group == "Lung Cancer"~1, 
@@ -72,7 +74,10 @@ df_diag_stat_models <- tibble(group = c("Lung Cancer", "Colon Cancer", "ARF/MOSF
 
 ```
 
+We write the models to disc for later use
+
 ```{r}
 df_diag_group_models <- df_diag_stat_models |>
   write_rds(here("data/models/diagnosis.RDS"))
 ```
+
