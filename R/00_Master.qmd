@@ -12,11 +12,18 @@ source(here("R/99_functions.R"))
 
 ```
 
+```{r}
+#| warning: false
+dir.create(here("results/plots"))
+dir.create(here("data/models"))
+```
+
 ## Rendering all quarto documents in the correct order.
 
 ```{r}
 library(here)
 library(quarto)
+
 
 render_to_results("data_loading")
 render_to_results("01_Preprosessing")

@@ -8,4 +8,8 @@ s235404 - Casper-Tietgen
 
 Final project for 22100
 
-We will try to look at equality in medicine. We want to see how much survival rate is dependent on sex,race,education or income level.
+The link to the presentation
+https://raw.githack.com/rforbiodatascience25/group_17_project/main/doc/presentation.html
+
+Link to the data that must be put into data/_raw is 
+https://hbiostat.org/data/repo/support.tsv
