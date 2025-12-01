@@ -71,6 +71,7 @@ show-slide-number: all
 
 ### Missing data
 
+::::: columns
 ::: {.column width="50%"}
 ![](../results/plots/wealth_distribution.png){width="100%"}
 :::
@@ -78,17 +79,18 @@ show-slide-number: all
 ::: {.column width="50%"}
 ![](../results/plots/education_frequency.png){width="100%"}
 :::
-
 :::::
+
+
 
 ## Linear models
 
 ### Example graph, under the hood
 ![](../results/plots/lm_example.png){width="100%"}
-
 ## Comparison of models
-:::
+
 ![](../results/plots/comparison.png){width="80%"}
-:::::
+
 ## Conclusion
+
 -Xd
