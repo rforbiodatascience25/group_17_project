@@ -4,6 +4,7 @@ format: html
 ---
 
 # Load packages
+
 ```{r}
 library(dplyr)
 library(ggplot2)
@@ -12,12 +13,14 @@ library(here)
 ```
 
 # Load data
+
 ```{r}
 df <- read.csv(here("data", "med_data_tidy.csv"))
 df
 ```
 
 # Create male_binary and female_binary.
+
 ```{r}
 df <- df |>
 mutate(male_binary = ifelse(sex == "male", 1, 0),
@@ -26,7 +29,9 @@ mutate(male_binary = ifelse(sex == "male", 1, 0),
 head(df[, c("sex", "male_binary", "female_binary")])
 
 ```
-# create linear model for both sex
+
+# create linear model for both sexes
+
 ```{r}
 female_model <- lm(death ~ female_binary, data = df)
 male_model <-   lm(death ~ male_binary, data = df)
@@ -41,15 +46,17 @@ model_df
 ```
 
 # save to sex.RDS
+
 ```{r}
 saveRDS(model_df, here("data/models/sex.RDS"))
 
 readRDS(here("data", "models", "sex.RDS"))
 ```
 
-
 ## visualizations
+
 # proportion of death for both sex
+
 ```{r}
 df_sex_death <- df |>
   group_by(sex) |>
@@ -65,6 +72,7 @@ ggplot(df_sex_death, aes(x = sex, y = death_rate)) +
     y = "Proportion Dead"
   )
 ```
+
 ```{r}
 ggplot(df, aes(x = sex, fill = factor(death))) +
   geom_bar(position = "dodge") +
@@ -74,6 +82,7 @@ ggplot(df, aes(x = sex, fill = factor(death))) +
     fill = "Death (1 = Dead)"
   )
 ```
+
 ```{r}
 ggplot(df, aes(x = age, fill = sex)) +
   geom_histogram(alpha = 0.6, position = "identity", bins = 30) +
@@ -83,7 +92,6 @@ ggplot(df, aes(x = age, fill = sex)) +
     y = "Count"
   )
 ```
-
 
 ```{r}
 #models without age 
@@ -95,7 +103,6 @@ female_with_age <- lm(death ~ female_binary + age, data = df)
 male_with_age   <- lm(death ~ male_binary + age, data = df)
 
 ```
-
 
 ```{r}
 extract_p <- function(model, variable){
@@ -116,6 +123,3 @@ pvals <- tibble(
 )
 pvals
 ```
-
-
-

@@ -66,134 +66,13 @@ income_plot
 
 ## Making the regression line
 
-### Income vs diagnosis class
-
-```{r}
-income_vs_class <- clean_data |>
-  lm(income_num ~  diag_class, data = _)
-```
-
-```{r}
-income_vs_class |>
-  summary()
-```
-
-```{r}
-income_vs_class |>
-  pluck("coefficients")
-```
-
-### Income vs class and death
-
-```{r}
-income_vs_class_death <- clean_data |>
-  lm(income_num ~  diag_class + death, data = _)
-```
-
-```{r}
-income_vs_class_death |>
-  summary()
-```
-
-### Income vs class, death and age
-
-```{r}
-income_vs_everything <- clean_data |>
-  lm(income_num ~  diag_class + death + age, data = _)
-```
-
-```{r}
-income_vs_everything |>
-  summary()
-```
-
-## Income vs. death
-
-```{r}
-incomedeath <- clean_data |>
-  group_by(income) |>
-  group_map(~ lm(income_num ~ death, data = .x))
-
-names(incomedeath) <- unique(clean_data$income_class)
-
-summaries <- incomedeath |> map(summary)
-summaries
-
-```
-
-### Making models
-
-```{r}
-income_death_model <- lm(death ~ income_num, data = clean_data)
-income_death_model |> summary()
-
-```
-
-```{r}
-model_class <- lm(death ~ income_class, data = clean_data)
-summary(model_class)
-
-```
-
-```{r}
-glm(death ~ income_num, data = clean_data, family = binomial)
-
-```
+### Making models for comparison
 
 ```{r}
 clean_data
 ```
 
-```{r}
-med_income_verylow <- clean_data |> 
-  filter(income_num == 11)
-
-med_income_verylow_model <- lm(death ~ income_num, data = med_income_verylow)
-med_income_verylow_model
-
-```
-
-```{r}
-med_income_low <- clean_data |> 
-  filter(income_num == 18)
-
-med_income_low_model <- lm(death ~ income_num, data = med_income_low)
-med_income_low_model
-
-```
-
-```{r}
-med_income_medium <- clean_data |> 
-  filter(income_num == 37.5)
-
-med_income_medium_model <- lm(death ~ income_num, data = med_income_medium)
-med_income_medium_model
-
-```
-
-```{r}
-med_income_high <- clean_data |> 
-  filter(income_num == 50)
-
-med_income_high_model <- lm(death ~ income_num, data = med_income_high)
-med_income_high_model
-
-```
-
-```{r}
-df_med_income_models <- tibble(
-  group = c("Very low income", 
-            "Low income", 
-            "Medium income", 
-            "High income"),
-  
-  model = list(
-    med_income_verylow_model,
-    med_income_low_model,
-    med_income_medium_model,
-    med_income_high_model))
-df_med_income_models
-```
+Defining the columbs
 
 ```{r}
 df_income <- clean_data |>
@@ -202,8 +81,10 @@ df_income <- clean_data |>
     poor     = case_when(income_class == "income poor" ~ 1, .default = 0),
     middle   = case_when(income_class == "income medium" ~ 1, .default = 0),
     wealthy  = case_when(income_class == "income wealthy" ~ 1, .default = 0))
-
+df_income
 ```
+
+creating linear models
 
 ```{r}
 model_verypoor <- lm(death ~ verypoor, data = df_income)
@@ -211,7 +92,7 @@ model_poor     <- lm(death ~ poor, data = df_income)
 model_middle   <- lm(death ~ middle, data = df_income)
 model_wealthy  <- lm(death ~ wealthy, data = df_income)
 
-df_income
+
 ```
 
 ```{r}
@@ -219,7 +100,7 @@ df_income_stat_models <- tibble(
   group = c("Income very low", "Income low", "Income medium", "Income wealthy"),
   model  = list(model_verypoor, model_poor, model_middle, model_wealthy))
 
-
+df_income_stat_models
 ```
 
 ```{r}
@@ -227,5 +108,3 @@ df_income_models <- df_income_stat_models |>
   write_rds(here("data/models/income.RDS"))
 
 ```
-
-## Plots

@@ -31,5 +31,8 @@ render_to_results <- function(file_name){
     from = dump_path,
     to = results_path)
 
-  unlink(here(glue("R/{file_name}_files")),recursive = TRUE)
+  file.rename(
+    from=here(glue("R/{file_name}_files")),
+    to = here(glue("results/{file_name}_files"))
+    )
 }
