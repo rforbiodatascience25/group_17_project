@@ -87,9 +87,12 @@ show-slide-number: all
 ![](../results/plots/lm_example.png){width="100%"}
 
 ## Comparison of models
-:::
-![](../results/plots/comparison.png){width="80%"}
-:::::
-## Results & Discussion
 
-### graph_3
+![](../results/plots/comparison.png){width="80%"}
+
+## Conclusion
+
+- Demographic variables show only weak associations with mortality
+- Clinical severity dominates the explanation of death risk
+- Large slopes for cancer, sepsis, coma, and MOSF
+- Consistent workflow allowed reliable model comparison
