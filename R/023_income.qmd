@@ -47,7 +47,8 @@ clean_data <- clean_data |>
     income_num = case_when(income == "under 11k" ~ 11,
       income == "11-25k"    ~ 18,
       income == "25-50k"    ~ 37.5,
-      income == ">50k"      ~ 50))
+      income == ">50k"      ~ 50),
+    income = factor(income, levels = c("under 11k", "11-25k", "25-50k", ">50k")))
 
 clean_data
 ```
@@ -62,6 +63,13 @@ income_plot <- ggplot(data = clean_data) +
   labs(title="Distribution of income and sex in dataset")
   
 income_plot
+```
+
+```{r}
+ggsave(filename=here("results/plots/wealth_distribution.png"),
+       plot=income_plot,
+       height = 5,
+       width=8)
 ```
 
 ## Making the regression line
