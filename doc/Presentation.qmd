@@ -85,8 +85,9 @@ format: revealjs
 ![](../results/plots/lm_example.png){width="100%"}
 
 ## Comparison of models
-
-
+:::
+![](../results/plots/comparison.png){width="80%"}
+:::::
 ## Results & Discussion
 
 ### graph_3
