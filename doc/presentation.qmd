@@ -90,6 +90,5 @@ show-slide-number: all
 :::
 ![](../results/plots/comparison.png){width="80%"}
 :::::
-## Results & Discussion
-
-### graph_3
+## Conclusion
+-Xd
