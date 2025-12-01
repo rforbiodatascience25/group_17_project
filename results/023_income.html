@@ -153,13 +153,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">income_num =</span> <span class="fu">case_when</span>(income <span class="sc">==</span> <span class="st">"under 11k"</span> <span class="sc">~</span> <span class="dv">11</span>,</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      income <span class="sc">==</span> <span class="st">"11-25k"</span>    <span class="sc">~</span> <span class="dv">18</span>,</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      income <span class="sc">==</span> <span class="st">"25-50k"</span>    <span class="sc">~</span> <span class="fl">37.5</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      income <span class="sc">==</span> <span class="st">"&gt;50k"</span>      <span class="sc">~</span> <span class="dv">50</span>))</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>clean_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      income <span class="sc">==</span> <span class="st">"&gt;50k"</span>      <span class="sc">~</span> <span class="dv">50</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">income =</span> <span class="fu">factor</span>(income, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"under 11k"</span>, <span class="st">"11-25k"</span>, <span class="st">"25-50k"</span>, <span class="st">"&gt;50k"</span>)))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>clean_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 651 × 8
      age death sex    diag_group       diag_class income income_class income_num
-   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;
+   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;      &lt;fct&gt;  &lt;chr&gt;             &lt;dbl&gt;
  1    42     1 female Colon Cancer     Cancer     25-50k income medi…       37.5
  2    64     1 female ARF/MOSF w/Seps… ARF/MOSF   25-50k income medi…       37.5
  3    42     1 male   MOSF w/Malig     ARF/MOSF   &gt;50k   income weal…       50  
@@ -193,17 +194,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename=</span><span class="fu">here</span>(<span class="st">"results/plots/wealth_distribution.png"</span>),</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot=</span>income_plot,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">5</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">width=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="making-the-regression-line" class="level2">
 <h2 class="anchored" data-anchor-id="making-the-regression-line">Making the regression line</h2>
 <section id="making-models-for-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="making-models-for-comparison">Making models for comparison</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>clean_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>clean_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 651 × 8
      age death sex    diag_group       diag_class income income_class income_num
-   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;
+   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;      &lt;fct&gt;  &lt;chr&gt;             &lt;dbl&gt;
  1    42     1 female Colon Cancer     Cancer     25-50k income medi…       37.5
  2    64     1 female ARF/MOSF w/Seps… ARF/MOSF   25-50k income medi…       37.5
  3    42     1 male   MOSF w/Malig     ARF/MOSF   &gt;50k   income weal…       50  
@@ -219,17 +226,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Defining the columbs</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_income <span class="ot">&lt;-</span> clean_data <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">verypoor =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income very poor"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">poor     =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income poor"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>),</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">middle   =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income medium"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">wealthy  =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income wealthy"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>))</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>df_income</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_income <span class="ot">&lt;-</span> clean_data <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">verypoor =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income very poor"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">poor     =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income poor"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">middle   =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income medium"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">wealthy  =</span> <span class="fu">case_when</span>(income_class <span class="sc">==</span> <span class="st">"income wealthy"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="at">.default =</span> <span class="dv">0</span>))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>df_income</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 651 × 12
      age death sex    diag_group       diag_class income income_class income_num
-   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;
+   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;      &lt;fct&gt;  &lt;chr&gt;             &lt;dbl&gt;
  1    42     1 female Colon Cancer     Cancer     25-50k income medi…       37.5
  2    64     1 female ARF/MOSF w/Seps… ARF/MOSF   25-50k income medi…       37.5
  3    42     1 male   MOSF w/Malig     ARF/MOSF   &gt;50k   income weal…       50  
@@ -246,17 +253,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>creating linear models</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model_verypoor <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> verypoor, <span class="at">data =</span> df_income)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>model_poor     <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> poor, <span class="at">data =</span> df_income)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>model_middle   <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> middle, <span class="at">data =</span> df_income)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>model_wealthy  <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> wealthy, <span class="at">data =</span> df_income)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_verypoor <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> verypoor, <span class="at">data =</span> df_income)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>model_poor     <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> poor, <span class="at">data =</span> df_income)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>model_middle   <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> middle, <span class="at">data =</span> df_income)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>model_wealthy  <span class="ot">&lt;-</span> <span class="fu">lm</span>(death <span class="sc">~</span> wealthy, <span class="at">data =</span> df_income)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_income_stat_models <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Income very low"</span>, <span class="st">"Income low"</span>, <span class="st">"Income medium"</span>, <span class="st">"Income wealthy"</span>),</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model  =</span> <span class="fu">list</span>(model_verypoor, model_poor, model_middle, model_wealthy))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>df_income_stat_models</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_income_stat_models <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Income very low"</span>, <span class="st">"Income low"</span>, <span class="st">"Income medium"</span>, <span class="st">"Income wealthy"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model  =</span> <span class="fu">list</span>(model_verypoor, model_poor, model_middle, model_wealthy))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df_income_stat_models</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   group           model 
@@ -268,8 +275,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_income_models <span class="ot">&lt;-</span> df_income_stat_models <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="fu">here</span>(<span class="st">"data/models/income.RDS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_income_models <span class="ot">&lt;-</span> df_income_stat_models <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="fu">here</span>(<span class="st">"data/models/income.RDS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
