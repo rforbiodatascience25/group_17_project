@@ -21,6 +21,7 @@ show-slide-number: all
 -   Correlation between Deathrate and selected variables
 -   linear and logistic models
 -   P-value with cutoff of 0.05
+![](../results/Cleaned_peak.png){width="60%"}
 
 ## Our Workflow and Branching
 
