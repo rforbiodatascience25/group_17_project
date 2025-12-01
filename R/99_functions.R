@@ -35,4 +35,6 @@ render_to_results <- function(file_name){
     from=here(glue("R/{file_name}_files")),
     to = here(glue("results/{file_name}_files"))
     )
+
+  unlink("R/{file_name}_files", recursive = TRUE)
 }
