@@ -5,13 +5,10 @@ author:
   - "Jonas Rafn (S235359)"
   - "Rasmus Bertelsen (S235350)"
   - "Casper Tietgen (S235404)"
-format:
-  revealjs:
-    slide-level: 2
+format: revealjs
 slide-number: c/t
 show-slide-number: all
 ---
-
 
 ## Introduction of data
 
@@ -50,11 +47,11 @@ show-slide-number: all
 :::
 :::::
 
-::::: columns
+:::: columns
 ::: {.column width="100%"}
 ![](../results/Sex_age_p-value.png){width="40%"}
 :::
-:::::
+::::
 
 ## Artifacts of different variables
 
@@ -74,7 +71,6 @@ show-slide-number: all
 
 ### Missing data
 
-::::: columns
 ::: {.column width="50%"}
 ![](../results/plots/wealth_distribution.png){width="100%"}
 :::
@@ -82,18 +78,21 @@ show-slide-number: all
 ::: {.column width="50%"}
 ![](../results/plots/education_frequency.png){width="100%"}
 :::
+
 :::::
-
-
 
 ## Linear models
 
 ### Example graph, under the hood
 ![](../results/plots/lm_example.png){width="100%"}
+
 ## Comparison of models
 
-![](../results/plots/comparison.png){width="70%" height="70%"}
+![](../results/plots/comparison.png){width="80%"}
 
 ## Conclusion
 
--Xd
+- Demographic variables show only weak associations with mortality
+- Clinical severity dominates the explanation of death risk
+- Large slopes for cancer, sepsis, coma, and MOSF
+- Consistent workflow allowed reliable model comparison
